@@ -1,0 +1,4 @@
+﻿scenario,CO2_kg_eq_per_300_uses,eco_cost_EUR_per_300_uses,source_cells
+baseline,3.6918633736121538,0.8865175582949965,CO2!G27; eco cost!G27
+improvement_1,2.689357470160491,0.5822568386221322,Improved CO2!G31; Improved Eco-cost!G31
+improvement_2,3.118444507535694,0.9628182589122871,Improvement2 CO2!G28; Improvement2 Eco-cost!G29

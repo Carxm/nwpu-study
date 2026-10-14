@@ -1,0 +1,467 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{needspace}
+\usepackage{textcomp}
+\usepackage{longtable}
+\usepackage{xstring}
+\usepackage{fancyhdr}
+
+\setmainfont{Times New Roman}
+\setCJKmainfont{Songti SC}[BoldFont=Songti SC]
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.24em}
+\linespread{1.18}
+\setlength{\emergencystretch}{3em}
+\setlength{\tabcolsep}{3.3pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.12em,topsep=0.24em,parsep=0pt}
+\setlist[itemize]{leftmargin=2.0em,itemsep=0.12em,topsep=0.24em,parsep=0pt}
+\setlength{\floatsep}{6pt}
+\setlength{\textfloatsep}{6pt}
+\setlength{\intextsep}{5pt}
+\captionsetup[table]{font=small,labelfont=bf,skip=0.18em,labelsep=quad,singlelinecheck=false,justification=centering,width=0.95\textwidth}
+\captionsetup[figure]{font=small,labelfont=bf,skip=0.18em,labelsep=quad}
+\renewcommand{\tablename}{Table}
+\renewcommand{\figurename}{Figure}
+\setlength{\LTleft}{0pt plus 1fil}
+\setlength{\LTright}{0pt plus 1fil}
+\setlength{\LTpre}{3pt}
+\setlength{\LTpost}{3pt}
+\setlength{\LTcapwidth}{0.95\textwidth}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{N}[1]{>{\centering\arraybackslash}p{#1}}
+\renewcommand{\arraystretch}{1.16}
+\setlength{\extrarowheight}{0.3pt}
+\setlength{\arrayrulewidth}{0.55pt}
+\setlength{\heavyrulewidth}{0.85pt}
+\setlength{\lightrulewidth}{0.55pt}
+\setlength{\belowrulesep}{0.35ex}
+\setlength{\aboverulesep}{0.2ex}
+
+\newcommand{\reportsection}[1]{%
+  \StrBefore{#1}{ }[\reportsectionid]%
+  \IfSubStr{\reportsectionid}{ }{}{\def\reportsectionid{#1}}%
+  \StrCount{\reportsectionid}{.}[\reportsectiondots]%
+  \StrRight{\reportsectionid}{1}[\reportsectionlastchar]%
+  \FloatBarrier
+  \Needspace{2\baselineskip}%
+  \IfStrEq{\reportsectionlastchar}{.}{%
+    \vspace{0.60em}%
+    \noindent{\LARGE\bfseries #1}\par
+    \vspace{0.25em}%
+  }{%
+    \ifnum\reportsectiondots=0
+    \vspace{0.60em}%
+    \noindent{\large\bfseries #1}\par
+    \vspace{0.25em}%
+    \else\ifnum\reportsectiondots=1
+    \vspace{0.50em}%
+    \noindent{\large\bfseries #1}\par
+    \vspace{0.20em}%
+    \else\ifnum\reportsectiondots=2
+    \vspace{0.35em}%
+    \noindent{\normalsize\bfseries #1}\par
+    \vspace{0.16em}%
+    \else
+    \vspace{0.28em}%
+    \noindent{\small\bfseries #1}\par
+    \vspace{0.12em}%
+    \fi\fi\fi
+  }%
+}
+
+\newcommand{\reportpara}[1]{%
+  \noindent #1\par
+}
+
+\newcommand{\resulttile}[3]{%
+  \begin{minipage}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=48mm,keepaspectratio]{#1}\\[-0.1em]
+    {\footnotesize #2}\\[-0.15em]
+    {\footnotesize #3}
+  \end{minipage}%
+}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  % Cover rebuilt from individual logo assets and live LaTeX text.
+  \node[inner sep=0pt,anchor=north west]
+    at ([xshift=31.7mm,yshift=-30.4mm]current page.north west)
+    {\includegraphics[width=81.6mm]{latex_assets/npu_logo.png}};
+  \node[inner sep=0pt,anchor=north west]
+    at ([xshift=123.1mm,yshift=-28.1mm]current page.north west)
+    {\includegraphics[width=60.0mm]{latex_assets/qmul_logo_cropped.pdf}};
+  \node[inner sep=0pt,anchor=center]
+    at ([yshift=-139.1mm]current page.north)
+    {{\fontspec{Times New Roman}\fontsize{28pt}{34pt}\selectfont\bfseries Experiment\ \ Report}};
+  \node[inner sep=0pt,anchor=center]
+    at ([yshift=-169.5mm]current page.north)
+    {{\fontspec{Times New Roman}\fontsize{20pt}{26pt}\selectfont\bfseries Metals\ \ 2:\ \ Alloy\ \ Systems\ \ and\ \ Heat\ \ Treatment}};
+  \node[inner sep=0pt,anchor=north]
+    at ([yshift=-203mm]current page.north)
+    {%
+      \begingroup
+      \renewcommand{\arraystretch}{1.55}
+      \begin{tabular}{|C{48mm}|C{102mm}|}
+      \hline
+      \textbf{Name} & \textbf{Che Xuanming 车轩铭} \\ \hline
+      \textbf{Student ID.} & \textbf{} \\ \hline
+      \textbf{Class NO.} & \textbf{QM012306} \\ \hline
+      \textbf{Group Number} & \textbf{M3} \\ \hline
+      \textbf{Group Members} & \textbf{Che Xuanming, Zheng Junhao, Han Yujia, Wang Yixuan, Zhang Yuchen, Kong Xianglu} \\ \hline
+      \textbf{Exp. Date} & \textbf{2026/5/30} \\ \hline
+      \end{tabular}
+      \endgroup
+    };
+\end{tikzpicture}
+\null
+\newpage
+
+\reportsection{1. Experiment name}
+
+\reportsection{1.1 Experiment 1: Metallographic observation and Vickers hardness testing of pure iron and QT400 ductile cast iron}
+
+\reportpara{Experiment objective: Under identical specimen preparation and testing conditions, compare the hardness response of pure iron and QT400 ductile cast iron using grinding, polishing, etching, optical microscopy, and Vickers hardness testing. The emphasis is on the correlation between matrix microstructure and graphite morphology.}
+
+\reportpara{Samples and process: The samples were pure iron and QT400 ductile cast iron. The procedure was carried out in the sequence of grinding--polishing--etching--drying--OM observation--Vickers hardness testing. No heat treatment was applied.}
+
+\reportsection{1.2 Experiment 2: Metallographic observation and Vickers hardness testing of steels after heat treatment}
+
+\reportpara{Experiment objective: Prepare steel specimens with different microstructures by annealing, normalizing, water quenching, and water quenching + tempering. By combining metallography and Vickers hardness testing, the coupled effects of carbon level, cooling rate, and tempering on microstructure and hardness were analyzed.}
+
+\reportpara{Samples and process: The samples were 20 steel, 45 steel, T8 steel, and different heat-treatment states of steel specimens. The process was heat treatment--surface conditioning/decarburized-layer removal--grinding--polishing--etching--OM observation--Vickers hardness testing.}
+
+\reportsection{2. Experiment facilities}
+
+\reportpara{This section lists the main instruments, consumables, and key process parameters used in the experiment.}
+\noindent
+\small
+\begin{longtable}{@{}L{0.266\textwidth}@{}P{0.684\textwidth}@{}}
+\caption{Experiment facilities and key parameters}\\
+\toprule
+\textbf{Category} & \textbf{Equipment/Consumables and parameters} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Category} & \textbf{Equipment/Consumables and parameters} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+\textbf{Heat treatment} & KSL-1100X box furnace (Model: KSL-1100X); transient holding up to 1200 \textdegree C and long holding up to 1100 \textdegree C, recommended heating rate \textless=10 \textdegree C/min; common processing range of 900--1100 \textdegree C. \\
+\textbf{Heat treatment} & Water quench tank; crucible tongs. \\
+\textbf{Metallographic sample preparation} & Metallographic papers (180\#, 400\#, 800\#, 1200\#, 2000\#); \\
+\textbf{Metallographic sample preparation} & Polishing machine. \\
+\textbf{Metallographic sample preparation} & Polishing cloth. \\
+\textbf{Metallographic sample preparation} & Polishing compound. \\
+\textbf{Etching} & 4\% Nital (etchant). \\
+\textbf{Observation} & Optical microscope; Imageview software (Video Overlay, scale calibration at 10×). \\
+\textbf{Hardness testing} & Micro-Vickers hardness tester (Shanghai Yanrun Guangji Technology Co./WHW; Model: HVT-1000A); 40× objective; test force 0.2 kg. \\
+\bottomrule
+\end{longtable}
+
+\reportsection{3. Experiment content and process}
+\reportpara{The experimental work consists of two routes:}
+\begin{enumerate}[label=(\arabic*)]
+\item Route 1 (pure iron and QT400 ductile cast iron): specimens were ground, polished, etched, observed by OM, and tested for Vickers hardness, mainly for comparing structure--hardness relationships under identical sample preparation.
+\item Route 2 (heat-treated steels): after annealing, normalizing, water quenching, or water quenching + tempering according to the assigned schedule, the specimens were metallographically prepared, observed, and hardness tested to evaluate the coupled effects of carbon content and process path.
+\end{enumerate}
+
+\reportsection{3.1 Heat treatment}
+
+\reportpara{This section corresponds to Route 2, i.e. heat treatment of the steel specimens. The steps were as follows:}
+\begin{enumerate}[label=(\arabic*)]
+\item Put steel specimens into the KSL-1100X furnace and set heating, holding, and cooling parameters according to the processing scheme.
+\item Preheat and hold at 900 \textdegree C for 30 min.
+\item Apply annealing, normalizing, water quenching, or water quenching + tempering; for quench + temper, temper for 30 min at 650 \textdegree C.
+\item After heat treatment, carry out surface conditioning and remove the decarburized layer (grind away at least about 1 mm), then enter metallographic preparation and hardness testing.
+\item Complete final quench or tempering and subsequent cooling according to the process route, then proceed to metallographic preparation and hardness testing.
+\end{enumerate}
+\noindent
+\small
+\begin{longtable}{@{}L{0.266\textwidth}@{}L{0.228\textwidth}@{}P{0.456\textwidth}@{}}
+\caption{Heat-treatment parameters of samples}\\
+\toprule
+\textbf{Material/sample} & \textbf{Heat-treatment route} & \textbf{Main parameters} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Material/sample} & \textbf{Heat-treatment route} & \textbf{Main parameters} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+45 steel & Annealing & Hold at 900 \textdegree C for 30 min, furnace cooling; estimated annealing cooling rate around 10 K/min. \\
+45 steel & Normalizing & Hold at 900 \textdegree C for 30 min, air cooling after furnace exit. \\
+45 steel & Water quenching & Hold at 900 \textdegree C for 30 min, quench in water immediately after holding. \\
+45 steel & Water quenching + tempering & Hold at 900 \textdegree C for 30 min, water quench, then temper at 650 \textdegree C for 30 min and air cool. \\
+20 steel, T8 steel & Normalizing & Hold at 900 \textdegree C for 30 min, air cooling after furnace exit. \\
+\bottomrule
+\end{longtable}
+
+\reportsection{3.2 Polishing and metallographic analysis}
+\reportpara{Specimens in both routes were metallographically prepared before microstructural observation as follows:}
+\begin{enumerate}[label=(\arabic*)]
+\item Both groups were cleaned to remove surface contamination. In Route 1, they entered grinding directly; in Route 2, specimens were processed after heat treatment and decarburized-layer removal.
+\item Grinding: grind from coarse to fine with 180\#, 400\#, 800\#, 1200\#, and 2000\# papers in one direction. Before changing paper, rotate the specimen 90° and maintain scratch continuity to reduce cross-scratches.
+\item Polishing: apply polishing compound to cloth, start the polisher and use a back-and-forth motion from edge to center, add water continuously, and gradually reduce force until a mirror-like finish is obtained, then rinse.
+\item Etching: rinse with water first, etch for 10 s, wash immediately with running water, then spray ethanol and blow-dry.
+\item Drying and inspection: after spraying ethanol, blow-dry the surface. Avoid touching polished surfaces with hard objects. Observe with optical microscopy and record images; calibrate scale in Imageview (Video Overlay) at 10× and archive images.
+\end{enumerate}
+
+\reportsection{3.3 Hardness test}
+\reportpara{After metallographic preparation in both routes, Vickers hardness tests were carried out as follows:}
+\begin{enumerate}[label=(\arabic*)]
+\item Confirm that the test surface is flat, clean, free of scale, scratches, and prior indents; select testing areas away from specimen edges.
+\item Place the specimen on the cross-stage, locate the region of interest with the 40× objective, and focus.
+\item Set the HVT-1000A micro-Vickers hardness tester to 0.2 kg, and run Start to complete loading, dwell, and unloading.
+\item Read indent: measure the two diagonal lengths $d_1$ and $d_2$ by micrometer eyepiece and calculate $d=n\times l$ ($n$ is right-hand graticule count, $l=0.5\,\mu$m).
+\item Data were primarily recorded as HV0.2, and HRC was read synchronously; if HRC was not shown, it is marked as ``not shown''.
+\item Multi-point repeats: each sample was tested repeatedly in multiple areas, and averaged values were used to reduce local microstructural fluctuations.
+\end{enumerate}
+
+\reportsection{4. Results and discussion}
+\reportpara{Both batches were evaluated by single-point testing. Local microstructural heterogeneity can strongly affect indentation position, so these results are used for trend comparison rather than direct replacement of standard reference values.}
+
+\reportsection{4.1 Experiment 1 results and discussion: pure iron and QT400 ductile cast iron}
+\noindent
+\small
+\begin{longtable}{@{}L{0.171\textwidth}@{}L{0.247\textwidth}@{}N{0.095\textwidth}@{}N{0.076\textwidth}@{}P{0.361\textwidth}@{}}
+\caption{Vickers hardness results of batch 1 samples}\\
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV0.2} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV0.2} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+Che Xuanming & Pure iron & 687.9 & 59.6 & See Fig. 1(a) \\
+Zheng Junhao & QT400 ductile cast iron & 776.4 & 63.1 & See Fig. 1(b) \\
+Han Yujia & QT400 ductile cast iron & 723.3 & 61.0 & See Fig. 1(c) \\
+Wang Yixuan & Pure iron & 684.4 & 59.4 & See Fig. 1(d) \\
+Zhang Yuchen & Pure iron & 578.4 & 54.0 & See Fig. 1(e) \\
+Kong Xianglu & Pure iron & 660.9 & 58.3 & See Fig. 1(f) \\
+\midrule
+\multicolumn{2}{c}{Average of QT400 ductile cast iron} & 749.9 & 62.1 & Average of two points \\
+\multicolumn{2}{c}{Average of pure iron} & 652.9 & 57.8 & Average of four points \\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[H]
+\centering
+\resulttile{latex_assets/results/batch1_3_pure_Fe.jpg}{(a) Pure iron\\(Che Xuanming)}{HV0.2 687.9, HRC 59.6}
+\hfill
+\resulttile{latex_assets/results/batch1_1_nodular_cast_iron.jpg}{(b) QT400 ductile cast iron\\(Zheng Junhao)}{HV0.2 776.4, HRC 63.1}
+\hfill
+\resulttile{latex_assets/results/batch1_2_nodular_cast_iron.jpg}{(c) QT400 ductile cast iron\\(Han Yujia)}{HV0.2 723.3, HRC 61.0}
+
+\vspace{0.8em}
+\resulttile{latex_assets/results/batch1_4_pure_Fe.jpg}{(d) Pure iron\\(Wang Yixuan)}{HV0.2 684.4, HRC 59.4}
+\hfill
+\resulttile{latex_assets/results/batch1_5_pure_Fe.jpg}{(e) Pure iron\\(Zhang Yuchen)}{HV0.2 578.4, HRC 54.0}
+\hfill
+\resulttile{latex_assets/results/batch1_6_pure_Fe.jpg}{(f) Pure iron\\(Kong Xianglu)}{HV0.2 660.9, HRC 58.3}
+\caption{OM micrographs of Batch 1. Imageview scale is shown as 100 \textmu m, but the actual scale was not marked in the figures.}
+\end{figure}
+
+\clearpage
+\reportsection{4.1.1 Key findings}
+\begin{enumerate}[label=(\arabic*)]
+\item Comparison of data: QT400 ductile cast iron (two points) has average HV0.2 of 749.9 and HRC of 62.1, while pure iron (four points) has average HV0.2 of 652.9 and HRC of 57.8; the cast iron values are higher.
+\item Microstructure: Fig. 1 shows near-spheroidal graphite in QT400 ductile cast iron. The matrix is primarily ferrite with some pearlite inclusions. Pure iron specimens are mainly equiaxed ferrite with clear grain boundaries.
+\item Outlier: the pure iron value 578.4/54.0 is significantly lower, probably caused by local defects, scratches, or uneven etching at the indentation site, indicating normal single-point variation.
+\end{enumerate}
+
+\reportsection{4.1.2 Microstructural classification}
+\noindent
+\small
+\begin{longtable}{@{}L{0.266\textwidth}@{}P{0.684\textwidth}@{}}
+\caption{Microstructural interpretation of batch 1}\\
+\toprule
+\textbf{Sample} & \textbf{Microstructural interpretation} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Sample} & \textbf{Microstructural interpretation} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+Pure iron & The microstructure is dominated by equiaxed ferrite with clear grain boundaries, and no obvious strengthening phase is observed. \\
+QT400 ductile cast iron & Near-spheroidal graphite is dispersed; the matrix is mainly ferrite with a small amount of pearlite. \\
+\bottomrule
+\end{longtable}
+\reportsection{4.1.3 Discussion}
+\reportpara{The results of batch 1 correspond well with OM observations. Pure iron is a low-carbon, equiaxed ferritic matrix with almost no high-strength phase, so dislocations can be activated and move more easily in the indentation zone, resulting in lower hardness.}
+\reportpara{In QT400 ductile cast iron, near-spheroidal graphite is dispersed in a ferrite--pearlite composite matrix. Interface regions and matrix heterogeneity create local constraint and stress redistribution, and mismatch between phase properties suppresses local dislocation motion. When the indentation falls in more strengthened local regions, local resistance to plastic deformation increases, raising average HV0.2 and HRC values.}
+\reportpara{Therefore, hardness differences in batch 1 mainly result from the combined effects of matrix type, phase interface distribution, and local indentation position, rather than from one composition factor alone.}
+
+\reportsection{4.2 Experiment 2 results and discussion: steels in different heat-treatment states}
+\noindent
+\begingroup
+\small
+\begin{longtable}{@{}L{0.171\textwidth}@{}L{0.285\textwidth}@{}N{0.095\textwidth}@{}N{0.133\textwidth}@{}P{0.266\textwidth}@{}}
+\caption{Vickers hardness results of batch 2 samples}\\
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV0.2} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV0.2} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+Che Xuanming & T8 steel normalized & 1152.0 & Not shown & See Fig. 2(a) \\
+Zheng Junhao & 45 steel annealed & 719.9 & 60.9 & See Fig. 2(b) \\
+Han Yujia & 20 steel normalized & 651.0 & 57.9 & See Fig. 2(c) \\
+Wang Yixuan & 45 steel normalized & 644.9 & 57.5 & See Fig. 2(d) \\
+Zhang Yuchen & 45 steel quench + temper & 963.5 & Not shown & See Fig. 2(e) \\
+Kong Xianglu & 45 steel water quenched & 2060.4 & Not shown & See Fig. 2(f) \\
+\bottomrule
+\end{longtable}
+\endgroup
+\begin{figure}[H]
+\centering
+\newcommand{\resulttileb}[3]{%
+  \begin{minipage}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=48mm,keepaspectratio]{#1}\\[-0.1em]
+    {\footnotesize #2}\\[-0.15em]
+    {\footnotesize #3}
+  \end{minipage}%
+}
+\resulttileb{latex_assets/results/batch2_3_T8_normalized.jpg}{(a) T8 steel normalized\\(Che Xuanming)}{HV0.2 1152.0, HRC not shown}
+\hfill
+\resulttileb{latex_assets/results/batch2_1_45_annealed.jpg}{(b) 45 steel annealed\\(Zheng Junhao)}{HV0.2 719.9, HRC 60.9}
+\hfill
+\resulttileb{latex_assets/results/batch2_2_20_normalized.jpg}{(c) 20 steel normalized\\(Han Yujia)}{HV0.2 651.0, HRC 57.9}
+
+\vspace{0.8em}
+\vspace{-0.1em}
+\resulttileb{latex_assets/results/batch2_4_45_normalized.jpg}{(d) 45 steel normalized\\(Wang Yixuan)}{HV0.2 644.9, HRC 57.5}
+\hfill
+\resulttileb{latex_assets/results/batch2_5_45_tempered.jpg}{(e) 45 steel quench + temper\\(Zhang Yuchen)}{HV0.2 963.5, HRC not shown}
+\hfill
+\resulttileb{latex_assets/results/batch2_6_45_quenched.jpg}{(f) 45 steel water quenched\\(Kong Xianglu)}{HV0.2 2060.4, HRC not shown}
+\caption{OM micrographs of Batch 2. Imageview scale is shown as 100 \textmu m, but the actual scale was not marked in the figures.}
+\end{figure}
+\let\resulttileb\undefined
+\reportsection{4.2.1 Key findings}
+\begin{enumerate}[label=(\arabic*)]
+\item The hardness distribution corresponds to microstructural impedance effects: 45 steel water-quenched has the highest value (HV0.2 = 2060.4), consistent with dense dislocation barriers and lath/plate martensite suppressing slip. T8 steel normalized is second (1152.0), reflecting higher matrix strength in a higher-carbon system under normalizing. The 45 steel water-quenched + tempered specimen (963.5) shows tempered martensitic response with partial softening. Annealed and normalized 45 steels (719.9 and 644.9) are in the mid-low range owing to a higher fraction of equilibrium diffusional products.
+\item Microstructural features: water-quenched 45 steel in Fig. 2 is mainly needle/lath-shaped, indicating non-equilibrium transformation of high-carbon austenite during rapid cooling. Other samples contain a larger fraction of ferrite + pearlite; interfacial and dislocation blocking effects are weaker and hardness is expected to be lower.
+\item Unusual sequence: 45 steel annealed is slightly higher than 45 steel normalized, showing that single-point tests are sensitive to local microstructural gradients. When indentation and microstructural length scales are comparable, moving between refined and coarse regions can increase local values.
+\end{enumerate}
+\clearpage
+\reportsection{4.2.2 Microstructural classification}
+\noindent
+\small
+\begin{longtable}{@{}L{0.228\textwidth}@{}L{0.190\textwidth}@{}P{0.532\textwidth}@{}}
+\caption{Microstructural interpretation of batch 2}\\
+\toprule
+\textbf{Sample} & \textbf{Tester} & \textbf{Microstructural interpretation} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Sample} & \textbf{Tester} & \textbf{Microstructural interpretation} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+T8 steel normalized & Che Xuanming & Refined ferritic/pearlitic matrix after normalizing; finer ferrite + pearlite morphology. \\
+45 steel annealed & Zheng Junhao & Higher equilibrium state with a higher proportion of ferrite + pearlite. \\
+20 steel normalized & Han Yujia & Refined structure after normalizing, mainly ferrite/pearlite. \\
+45 steel normalized & Wang Yixuan & Refined ferrite + pearlite with no obvious martensitic features. \\
+45 steel quench + temper & Zhang Yuchen & Partially decomposed quenched structure after tempering, showing tempered martensite features. \\
+45 steel water quenched & Kong Xianglu & Fine needle-/lath-like martensitic morphology after water quenching. \\
+\bottomrule
+\end{longtable}
+\reportsection{4.2.3 Discussion}
+\reportpara{The second batch shows strong consistency between hardness data and microstructural characterization. The key effect of heat treatment is not just heating and cooling, but whether austenite is transformed into ferrite, pearlite, martensite, or tempered martensite through different transformation paths. Each path changes dislocation density, phase fraction, and local carbon distribution, thereby changing indentation resistance.}
+\reportpara{For water-quenched 45 steel, fast cooling limits diffusion, causing most austenite to transform into martensite. This creates high internal stress, high dislocation density, and substructure refinement, thus producing the highest hardness. In contrast, the 45 steel quench + temper sample tempered at 650\,\textdegree C undergoes partial recovery and decomposition: a martensitic skeleton is retained while part of the stored deformation energy is released, so hardness decreases but remains high.}
+\reportpara{Normalized and annealed samples follow equilibrium diffusional paths, where ferrite and pearlite fractions increase and dislocation/strain fields are relieved, resulting in matrices that deform more easily. T8 normalized samples remain harder than normalized 20/45 steels, indicating that higher carbon systems provide higher matrix-strength potential under similar schedules.}
+
+\reportsection{4.3 Overall discussion}
+\reportpara{The logical relationship between the two batches can be summarized as:}
+\begin{enumerate}[label=(\arabic*)]
+\item Batch 1 is controlled by initial microstructure: pure iron has a lower baseline resistance due to an equiaxed ferritic matrix, while QT400 ductile cast iron shows stronger local indentation constraint from graphite--matrix interfaces and dispersed pearlite.
+\item Batch 2 is controlled by processing path: heat treatment changes dislocation density, phase fractions, and transformation mode. Water quenching retains a higher fraction of non-equilibrium phases, tempering introduces partial recovery, and annealing/normalizing increases equilibrium fractions. Therefore hardness follows water quench $>$ quench + temper $>$ normalize/anneal.
+\item Both batches support the same mechanism: at the microstructural scale, non-equilibrium refinement and multiphase interfaces raise local dislocation resistance, increasing Vickers indentation resistance; more homogeneous, diffusion-dominated structures give lower hardness trends.
+\end{enumerate}
+\reportpara{In summary, hardness differences are mainly structure-controlled. The processing route amplifies these differences by changing phase composition, interface density, and stored dislocation state. Local single-point deviations mostly arise from the matching between the local indentation location and local microstructural gradients, without changing the overall mechanism interpretation.}
+
+\reportsection{5. Conclusions}
+\begin{enumerate}[label=(\arabic*)]
+\item In batch 1, pure iron (equiaxed ferritic matrix) has average HV0.2 652.9 and HRC 57.8, lower than QT400 ductile cast iron with average HV0.2 749.9 and HRC 62.1. The hardness gap is consistent with the structural differences observed by OM.
+\item In batch 2, water-quenched 45 steel (HV0.2 = 2060.4) is the highest; water-quenched + tempered 45 steel (HV0.2 = 963.5) is second; T8 steel normalized (HV0.2 = 1152.0) is higher than 20 steel and 45 steel normalized (651.0 and 644.9, respectively). 45 steel annealed (719.9) and normalized steels are in the middle-to-low range. This order matches the heat-treatment-induced microstructures.
+\item Core findings of this report are:
+\begin{enumerate}[label=(\arabic*)]
+\item Under the same preparation conditions, QT400 ductile cast iron shows higher average hardness than pure iron, mainly because near-spheroidal graphite and matrix heterogeneity jointly increase local indentation constraints.
+\item In heat-treated steels, hardness decreases in the order water quench $>$ water quench + temper $>$ normalize/anneal, consistent with microstructural evolution.
+\end{enumerate}
+\item This experiment is suitable for comparing hardness differences under different microstructures. For absolute property assessment, future work should include repeated multi-point measurements and statistical averaging for each specimen, combined with OM filtering to exclude local outliers.
+\item From the structure--property perspective, batch 1 is mainly controlled by matrix structure and local interfaces, while batch 2 is mainly controlled by the non-equilibrium state formed by heat treatment. As interface density increases and dislocation and strain fields become more restricted, indentation resistance increases. When processing promotes diffusion-controlled equilibration and recovery, hardness decreases while structural stability increases.
+\end{enumerate}
+\clearpage
+\reportsection{Appendix Specific Contribution of Each Members (Provided by the group leader)}
+\vspace{1em}
+\vspace{1em}
+\noindent
+\small
+\begin{longtable}{@{}L{0.171\textwidth}@{}L{0.352\textwidth}@{}P{0.427\textwidth}@{}}
+\caption{Contribution of group members}\\
+\toprule
+\textbf{Member} & \textbf{Task} & \textbf{Remarks} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Member} & \textbf{Task} & \textbf{Remarks} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+Che Xuanming & Experimental coordination; Vickers hardness testing and record for batch 1 pure iron; Vickers hardness testing for T8 steel normalized in batch 2. & Overall coordination, unified table and figure formatting, and layout checking. \\
+Zheng Junhao & QT400 ductile cast iron in batch 1; annealed 45 steel in batch 2. & Data aggregation and table/figure formatting. \\
+Han Yujia & 20 steel normalized in batch 2; supplementary imaging and recording of QT400 ductile cast iron in batch 1. & Data checking for corresponding records. \\
+Wang Yixuan & Pure iron in batch 1; 45 steel normalized in batch 2. & Completion of hardness data and image organization. \\
+Zhang Yuchen & Pure iron in batch 1; 45 steel quench + temper in batch 2. & Provided measurement support and microstructural interpretation. \\
+Kong Xianglu & Pure iron in batch 1; 45 steel water quenched in batch 2. & Responsible for microstructural image acquisition and archiving. \\
+\bottomrule
+\end{longtable}
+\end{document}

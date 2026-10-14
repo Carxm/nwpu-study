@@ -1,2 +1,7 @@
 __pycache__/
 *.py[cod]
+
+# Local screening notes and verification files, outside the public course collection.
+/outputs/year3-sem2-screening-20261013/
+/outputs/year3-all-20261014/
+/work/year3-all-20261014/

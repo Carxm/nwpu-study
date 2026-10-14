@@ -1,0 +1,426 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{needspace}
+\usepackage{textcomp}
+\usepackage{longtable}
+\usepackage{xstring}
+\usepackage{fancyhdr}
+
+\setmainfont{Times New Roman}
+\setCJKmainfont{Songti SC}[BoldFont=Songti SC]
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.12em}
+\linespread{1.04}
+\setlength{\emergencystretch}{3em}
+\setlength{\tabcolsep}{3.2pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.03em,topsep=0.12em,parsep=0pt}
+\setlist[itemize]{leftmargin=2.0em,itemsep=0.03em,topsep=0.12em,parsep=0pt}
+\setlength{\floatsep}{3pt}
+\setlength{\textfloatsep}{3pt}
+\setlength{\intextsep}{3pt}
+\captionsetup[table]{font=small,labelfont=bf,skip=0.16em,labelsep=quad,singlelinecheck=false,justification=centering,width=0.95\textwidth}
+\captionsetup[figure]{font=small,labelfont=bf,skip=0.16em,labelsep=quad}
+\renewcommand{\tablename}{Table}
+\renewcommand{\figurename}{Figure}
+\setlength{\LTleft}{0pt plus 1fil}
+\setlength{\LTright}{0pt plus 1fil}
+\setlength{\LTpre}{2pt}
+\setlength{\LTpost}{2pt}
+\setlength{\LTcapwidth}{0.95\textwidth}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{N}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\extrarowheight}{0.2pt}
+\setlength{\arrayrulewidth}{0.55pt}
+\setlength{\heavyrulewidth}{0.85pt}
+\setlength{\lightrulewidth}{0.55pt}
+\setlength{\belowrulesep}{0.35ex}
+\setlength{\aboverulesep}{0.2ex}
+
+\newcommand{\reportsection}[1]{%
+  \StrBefore{#1}{ }[\reportsectionid]%
+  \IfSubStr{\reportsectionid}{ }{}{\def\reportsectionid{#1}}%
+  \StrCount{\reportsectionid}{.}[\reportsectiondots]%
+  \StrRight{\reportsectionid}{1}[\reportsectionlastchar]%
+  \FloatBarrier
+  \Needspace{2\baselineskip}%
+  \IfStrEq{\reportsectionlastchar}{.}{%
+    \vspace{0.50em}%
+    \noindent{\LARGE\bfseries #1}\par
+    \vspace{0.20em}%
+  }{%
+    \ifnum\reportsectiondots=0
+    \vspace{0.50em}%
+    \noindent{\large\bfseries #1}\par
+    \vspace{0.20em}%
+    \else\ifnum\reportsectiondots=1
+    \vspace{0.40em}%
+    \noindent{\large\bfseries #1}\par
+    \vspace{0.16em}%
+    \else\ifnum\reportsectiondots=2
+    \vspace{0.28em}%
+    \noindent{\normalsize\bfseries #1}\par
+    \vspace{0.12em}%
+    \else
+    \vspace{0.22em}%
+    \noindent{\small\bfseries #1}\par
+    \vspace{0.10em}%
+    \fi\fi\fi
+  }%
+}
+
+\newcommand{\reportpara}[1]{%
+  \noindent #1\par
+}
+
+\newcommand{\resulttile}[3]{%
+  \begin{minipage}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth,height=36mm,keepaspectratio]{#1}\\[-0.12em]
+    {\footnotesize #2}\\[-0.18em]
+    {\footnotesize #3}
+  \end{minipage}%
+}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[inner sep=0pt,anchor=north west]
+    at ([xshift=31.7mm,yshift=-30.4mm]current page.north west)
+    {\includegraphics[width=81.6mm]{latex_assets/npu_logo.png}};
+  \node[inner sep=0pt,anchor=north west]
+    at ([xshift=123.1mm,yshift=-28.1mm]current page.north west)
+    {\includegraphics[width=60.0mm]{latex_assets/qmul_logo_cropped.pdf}};
+  \node[inner sep=0pt,anchor=center]
+    at ([yshift=-139.1mm]current page.north)
+    {{\fontspec{Times New Roman}\fontsize{28pt}{34pt}\selectfont\bfseries Experiment\ \ Report}};
+  \node[inner sep=0pt,anchor=center]
+    at ([yshift=-169.5mm]current page.north)
+    {{\fontspec{Times New Roman}\fontsize{20pt}{26pt}\selectfont\bfseries Metals\ \ 2:\ \ Alloy\ \ Systems\ \ and\ \ Heat\ \ Treatment}};
+  \node[inner sep=0pt,anchor=north]
+    at ([yshift=-203mm]current page.north)
+    {%
+      \begingroup
+      \renewcommand{\arraystretch}{1.55}
+      \begin{tabular}{|C{48mm}|C{102mm}|}
+      \hline
+      \textbf{Name} & \textbf{Che Xuanming} \\ \hline
+      \textbf{Student ID.} & \textbf{} \\ \hline
+      \textbf{Class NO.} & \textbf{QM012306} \\ \hline
+      \textbf{Group Number} & \textbf{M3} \\ \hline
+      \textbf{Group Members} & \textbf{Che Xuanming (me), Zheng Junhao, Han Yujia, Wang Yixuan, Zhang Yuchen, Kong Xianglu} \\ \hline
+      \textbf{Exp. Date} & \textbf{2026/6/6} \\ \hline
+      \end{tabular}
+      \endgroup
+    };
+\end{tikzpicture}
+\null
+\newpage
+
+\reportsection{1. Experiment name}
+
+\reportsection{1.1 Heat treatment and hardness evolution of 2A12 Al alloy}
+
+\reportpara{This experiment investigated solution treatment and artificial age hardening of 2A12 aluminum alloy. By comparing the microstructures and hardness values of original/non-solution-treated samples, solution-treated samples, and samples aged for different times, the experiment aimed to clarify the relationship among solution treatment, water quenching, and precipitation strengthening in an Al--Cu--Mg aluminum alloy.}
+
+\reportpara{The sample arrangement was as follows. The group first prepared and tested six comparison samples, including three original/non-solution-treated samples and three solution-treated and water-quenched samples. Each member then tested one aged sample, with the aging time varying among members. The report is therefore organized around two discussion units: the comparison between original and solution-treated states, and the effect of aging time at a fixed temperature.}
+
+\reportsection{2. Experiment facilities}
+
+\reportpara{This section lists the main equipment, consumables, and parameters used for heat treatment, metallographic preparation, microstructural observation, and hardness testing of the 2A12 aluminum alloy.}
+\noindent
+\small
+\begin{longtable}{@{}L{0.266\textwidth}@{}P{0.684\textwidth}@{}}
+\caption{Experiment facilities and key parameters}\\
+\toprule
+\textbf{Category} & \textbf{Equipment/Consumables and parameters} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Category} & \textbf{Equipment/Consumables and parameters} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+\textbf{Heat treatment} & Box-type resistance furnace or temperature-controlled heat-treatment furnace; solution treatment was carried out at 500\,\textdegree C for 60 min. \\
+\textbf{Quenching} & Water-quenching tank; samples were transferred rapidly into water after solution treatment to retain a supersaturated solid solution. \\
+\textbf{Artificial aging} & Artificial aging furnace; according to the Group A parameters for Group M3, samples were aged at 260\,\textdegree C for 20, 40, 60, 80, 100, and 120 min, respectively. \\
+\textbf{Metallographic preparation} & Metallographic abrasive papers, polishing machine, polishing cloth, and polishing agent; samples were ground and polished from coarse to fine until the surface was suitable for observation and indentation testing. \\
+\textbf{Etching and cleaning} & 0.5\% HF solution or an Al-alloy metallographic etchant provided by the laboratory; water, ethanol, and drying equipment; samples were cleaned and dried immediately after etching. \\
+\textbf{Observation} & Optical microscope and Imageview/image acquisition software; OM images of different treatment states were recorded by adjusting illumination, focus, and magnification, with scale bars retained. \\
+\textbf{Hardness testing} & Rockwell hardness tester for HRC; Micro-Vickers hardness tester with 40$\times$ objective and 0.2 kg test force for HV. This report mainly uses the HV trend for analysis. \\
+\bottomrule
+\end{longtable}
+
+\reportsection{3. Experiment content and process}
+\reportpara{This experiment focused on age strengthening in 2A12 aluminum alloy. The first set of samples was used to establish a comparison between the original/non-solution-treated state and the solution-treated and quenched state. The second set was used to compare the hardness change caused by different holding times at the same artificial aging temperature. 2A12 is a heat-treatable aluminum alloy. Its strengthening process generally involves solution treatment, rapid cooling to form a supersaturated solid solution, and the subsequent formation of fine precipitates during natural or artificial aging. The change in hardness essentially reflects the degree to which dislocation motion is impeded by solute atoms and precipitates.}
+
+\reportsection{3.1 Heat treatment}
+
+\reportpara{The heat-treatment route included two levels: preparation of comparison samples and preparation of artificially aged samples. The former corresponded to the comparison between three original/non-solution-treated samples and three solution-treated samples, while the latter corresponded to six samples aged for different times. The solution-treatment temperature was selected as 500\,\textdegree C to increase the dissolution of strengthening elements such as Cu and Mg into the aluminum matrix while avoiding local overheating or melting of low-melting constituents. The artificial aging temperature of 260\,\textdegree C followed the Group A experimental arrangement. This relatively high aging temperature accelerated the formation and coarsening of GP zones, metastable phases ($\theta'$, $S'$), and stable phases ($\theta$, $S$) within the limited laboratory time, making the time-dependent hardness response easier to observe.}
+\begin{enumerate}[label=(\arabic*)]
+\item Comparison samples: the group first completed six samples. Three were kept in the original/non-solution-treated state and three were solution treated and water quenched, so that hardness and OM microstructure could be compared before and after solution treatment.
+\item Solution treatment: the 2A12 aluminum alloy samples were heated to 500\,\textdegree C and held for 60 min, allowing soluble strengthening elements to enter the aluminum matrix as much as possible and producing a state close to a single-phase solid solution.
+\item Water quenching: immediately after solution treatment, the samples were water quenched to suppress diffusional precipitation during cooling and to retain Cu, Mg, and other solute atoms as a supersaturated solid solution at room temperature.
+\item Artificial aging: Group M3 followed the Group A parameter set, so 260\,\textdegree C was selected as the aging temperature. The six members each tested one aged sample, with aging times of 20, 40, 60, 80, 100, and 120 min, respectively, to obtain different precipitation stages.
+\item Subsequent testing: after heat treatment, the samples were ground, polished, etched when necessary, observed metallographically, and tested for hardness.
+\end{enumerate}
+
+\reportsection{3.2 Polishing and metallographic analysis}
+\reportpara{The main objective of metallographic preparation was to obtain a surface with no obvious scratches, a shallow deformation layer, and sufficient flatness for both observation and indentation testing. The detailed steps were as follows:}
+\begin{enumerate}[label=(\arabic*)]
+\item The sample surface was cleaned to remove oil, oxide scale, and loose particles, preventing hard particles from scratching the sample during grinding and polishing.
+\item Coarse and fine grinding: metallographic abrasive papers were used from coarse to fine. Before changing to the next paper, the sample was rotated by approximately 90\textdegree, so that scratches from the previous step could be clearly removed by the next grinding direction.
+\item Polishing: an appropriate amount of polishing agent and water was added to the polishing cloth until the sample surface gradually became mirror-like. Excessive pressure was avoided to reduce surface dragging and local deformation.
+\item Etching: the polished 2A12 aluminum alloy samples were etched briefly so that grain-boundary contrast, coarse second-phase particles, and local etching contrast could be observed more easily under OM.
+\item Cleaning and drying: immediately after etching, the samples were rinsed with water, cleaned with ethanol, and dried to prevent continued corrosion or water marks on the surface.
+\item OM observation: the microstructures of different treatment states were observed under an optical microscope. Images with scale bars were saved and organized together with the corresponding hardness data.
+\end{enumerate}
+\reportpara{OM observation was mainly used to compare coarse second-phase particles, etching contrast, and surface uniformity under different treatment states. It should be noted that the principal strengthening precipitates formed during aging of 2A12 aluminum alloy are very small, and many fine precipitates cannot be directly resolved by ordinary OM. Therefore, hardness evolution provides a more direct indication of precipitation strengthening than the OM images alone.}
+
+\reportsection{3.3 Hardness test}
+\reportpara{Hardness testing was performed on flat polished regions, avoiding sample edges, obvious scratches, pores, and existing indentations as far as possible. HV and HRC readings were recorded for each sample and organized together with the corresponding OM images. Because the experimental data mainly came from single-point or limited-point measurements within the group, local microstructural differences, indentation position, and surface preparation could introduce scatter. The discussion therefore focuses on relative trends within the same batch of samples.}
+\reportpara{The physical meaning of Vickers hardness is the resistance of a material to local plastic deformation. When the indenter penetrates the sample surface, solute atoms, metastable precipitates, or coarse second-phase particles that impede dislocation motion restrict plastic deformation around the indentation and usually produce higher hardness. If the indentation is located in a softer aluminum matrix region, or if grinding marks, etching pits, or local unevenness are present, the hardness reading may be lower. Therefore, the interpretation of hardness in this experiment considers heat-treatment state, OM-visible features, and testing position at the same time.}
+\reportpara{During data organization, HV was used as the primary index and HRC as an auxiliary reading. Because aluminum alloys have relatively low hardness and instrument-dependent conversion ranges may introduce deviations, HRC values should not be used alone to judge the aging-strengthening trend. This report therefore focuses on the HV trend: first comparing the averages of the original and solution-treated states, and then comparing relative hardness changes at different aging times while using OM images to check for obvious surface defects or local microstructural non-uniformity.}
+
+\reportsection{4. Results and discussion}
+
+\reportpara{This section follows the actual experimental structure. It first compares the six comparison samples completed by the whole group, namely three original/non-solution-treated samples and three solution-treated samples. It then analyzes the hardness evolution of the six samples aged at 260\,\textdegree C for different times, with one aged sample tested by each group member.}
+
+\reportsection{4.1 Original and solid-solution-treated 2A12 Al alloy}
+\noindent
+\small
+\begin{longtable}{@{}L{0.171\textwidth}@{}L{0.247\textwidth}@{}N{0.095\textwidth}@{}N{0.076\textwidth}@{}P{0.361\textwidth}@{}}
+\caption{Hardness results of original and solid-solution-treated samples}\\
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Tester} & \textbf{Sample} & \textbf{HV} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+\textbf{Che Xuanming (me)} & Solid solution Al & 556.0 & 52.7 & See Fig. 1(a) \\
+Zheng Junhao & Solid solution Al & 565.7 & 53.3 & See Fig. 1(b) \\
+Han Yujia & Solid solution Al & 599.4 & 55.2 & See Fig. 1(c) \\
+Wang Yixuan & Original Al & 615.9 & 56.1 & See Fig. 1(d) \\
+Zhang Yuchen & Original Al & 644.9 & 57.5 & See Fig. 1(e) \\
+Kong Xianglu & Original Al & 570.7 & 53.6 & See Fig. 1(f) \\
+\midrule
+\multicolumn{2}{c}{Average of solid solution Al} & 573.7 & 53.7 & Average of three points \\
+\multicolumn{2}{c}{Average of original Al} & 610.5 & 55.7 & Average of three points \\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[H]
+\centering
+\resulttile{latex_assets/results/section1_3_solid_solution_che.jpg}{(a) Solid solution Al\\(\textbf{Che Xuanming (me)})}{HV 556.0, HRC 52.7}
+\hfill
+\resulttile{latex_assets/results/section1_1_solid_solution_zheng.jpg}{(b) Solid solution Al\\(Zheng Junhao)}{HV 565.7, HRC 53.3}
+\hfill
+\resulttile{latex_assets/results/section1_2_solid_solution_han.jpg}{(c) Solid solution Al\\(Han Yujia)}{HV 599.4, HRC 55.2}
+
+\vspace{0.65em}
+\resulttile{latex_assets/results/section1_4_original_wang.jpg}{(d) Original Al\\(Wang Yixuan)}{HV 615.9, HRC 56.1}
+\hfill
+\resulttile{latex_assets/results/section1_5_original_zhang.jpg}{(e) Original Al\\(Zhang Yuchen)}{HV 644.9, HRC 57.5}
+\hfill
+\resulttile{latex_assets/results/section1_6_original_kong.jpg}{(f) Original Al\\(Kong Xianglu)}{HV 570.7, HRC 53.6}
+\caption{OM micrographs of original and solid-solution-treated 2A12 Al alloy. The scale bars are retained from the original images.}
+\end{figure}
+
+\reportsection{4.1.1 Key findings}
+\begin{enumerate}[label=(\arabic*)]
+\item The average hardness of the three solution-treated samples was HV 573.7 and HRC 53.7, whereas the average hardness of the three original samples was HV 610.5 and HRC 55.7. The original state therefore showed a slightly higher average hardness than the solution-treated state.
+\item The OM images show dark fine particles or local etching contrast distributed in the aluminum matrix. However, the overall difference between the original and solution-treated states is not obvious, and no continuous grain-boundary network or typical second-phase network is clearly resolved. Therefore, the OM results mainly support the evaluation of surface condition and macroscopic uniformity, but cannot independently prove changes in precipitation state.
+\item Hardness did not increase after solution treatment, indicating that solution treatment and quenching alone do not produce the highest strengthening effect. Their main role is to form a supersaturated solid solution and prepare the alloy for subsequent aging precipitation.
+\end{enumerate}
+
+\reportsection{4.1.2 Discussion}
+\reportpara{Strengthening of 2A12 aluminum alloy is not fully achieved at the end of solution treatment. Solution treatment dissolves solute atoms such as Cu and Mg into the aluminum matrix, and water quenching then retains them as a supersaturated solid solution. At this stage, solute atoms can provide some solid-solution strengthening. However, the original samples may already contain strengthening effects from natural aging or prior processing history, which explains why the original state showed a slightly higher average hardness.}
+\reportpara{In this dataset, the original samples were approximately 36.8 HV harder on average than the solution-treated samples. This indicates that solution treatment may dissolve some pre-existing strengthening phases or reduce their contribution to precipitation strengthening. If the solution-treated samples are not sufficiently aged afterward, fine strengthening precipitates have not yet formed in large numbers, and the effective resistance to dislocation motion remains limited. As a result, the solution-treated state does not necessarily have a higher hardness than the original state.}
+\reportpara{From the perspective of phase transformation and strengthening sequence, the quenched solution-treated samples are in a transitional state with high solute content but insufficient precipitation. Solution treatment may reduce the pinning effect of pre-existing fine precipitates on dislocations. Although water quenching preserves a supersaturated solid solution and a high vacancy concentration, these vacancies and solute atoms have not yet organized into fine, dispersed, and effective strengthening precipitates. Therefore, the lower hardness of the solution-treated samples is not contradictory. Instead, it confirms that subsequent aging is the key step for strengthening 2A12 aluminum alloy.}
+\reportpara{The OM results mainly reveal dark particles, etching contrast, and surface condition. The fine precipitation features that control age hardening, such as GP zones, $\theta'$, and $S'$, are generally below the resolution of ordinary optical microscopy. Some dark particles in the images may also be introduced by preparation contamination, residual polishing particles, or local etching differences, rather than representing internal strengthening phases. Therefore, hardness data provide the primary basis for evaluating precipitation strengthening, while OM images mainly help exclude obvious burning, severe over-etching, and macroscopic microstructural abnormalities.}
+
+\reportsection{4.1.3 OM-visible features and interpretation}
+\noindent
+\small
+\begin{longtable}{@{}M{0.228\textwidth}@{}M{0.190\textwidth}@{}M{0.532\textwidth}@{}}
+\caption{Interpretation of OM-visible features in original and solid-solution-treated samples}\\
+\toprule
+\textbf{Sample state} & \textbf{Hardness level} & \textbf{Interpretation based on OM and heat-treatment state} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Sample state} & \textbf{Hardness level} & \textbf{Interpretation based on OM and heat-treatment state} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+Solid solution Al & HV 556.0--599.4 & The OM images show a relatively uniform Al matrix with visible dark fine particles or local etching contrast. After solution treatment and water cooling, the material contains supersaturated solute atoms, but fine strengthening precipitates have not fully formed; therefore the hardness remains moderate. \\
+Original Al & HV 570.7--644.9 & The original samples show similar visible contrast, and no continuous grain-boundary network is clearly resolved. Their higher average hardness is more reasonably attributed to prior natural aging or processing-related strengthening than to OM-visible structural differences alone. \\
+Comparison between states & Average difference 36.8 HV & OM alone cannot resolve nanometer-scale precipitates and some dark particles may be surface contamination or etching artifacts. The conclusion is therefore supported mainly by hardness data and heat-treatment logic rather than direct OM identification of $\theta$ or $S$ phases. \\
+\bottomrule
+\end{longtable}
+
+\reportsection{4.2 Artificial aging at 260\,\textdegree C}
+\noindent
+\begingroup
+\small
+\begin{longtable}{@{}L{0.171\textwidth}@{}L{0.190\textwidth}@{}N{0.095\textwidth}@{}N{0.076\textwidth}@{}P{0.418\textwidth}@{}}
+\caption{Hardness evolution during artificial aging at 260\,\textdegree C}\\
+\toprule
+\textbf{Tester} & \textbf{Aging time} & \textbf{HV} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Tester} & \textbf{Aging time} & \textbf{HV} & \textbf{HRC} & \textbf{OM result} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+\textbf{Che Xuanming (me)} & 60 min & 556.0 & 52.7 & See Fig. 2(a) \\
+Zheng Junhao & 20 min & 547.0 & 52.1 & See Fig. 2(b) \\
+Zhang Yuchen & 40 min & 414.3 & 42.2 & See Fig. 2(c) \\
+Wang Yixuan & 80 min & 589.8 & 54.7 & See Fig. 2(d) \\
+Kong Xianglu & 100 min & 520.8 & 50.5 & See Fig. 2(e) \\
+Han Yujia & 120 min & 541.1 & 51.8 & See Fig. 2(f) \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{figure}[H]
+\centering
+\resulttile{latex_assets/results/section2_3_60min_che.jpg}{(a) 60 min\\(\textbf{Che Xuanming (me)})}{HV 556.0, HRC 52.7}
+\hfill
+\resulttile{latex_assets/results/section2_1_20min_zheng.jpg}{(b) 20 min\\(Zheng Junhao)}{HV 547.0, HRC 52.1}
+\hfill
+\resulttile{latex_assets/results/section2_2_40min_zhang.jpg}{(c) 40 min\\(Zhang Yuchen)}{HV 414.3, HRC 42.2}
+
+\vspace{0.65em}
+\resulttile{latex_assets/results/section2_4_80min_wang.jpg}{(d) 80 min\\(Wang Yixuan)}{HV 589.8, HRC 54.7}
+\hfill
+\resulttile{latex_assets/results/section2_5_100min_kong.jpg}{(e) 100 min\\(Kong Xianglu)}{HV 520.8, HRC 50.5}
+\hfill
+\resulttile{latex_assets/results/section2_6_120min_han.jpg}{(f) 120 min\\(Han Yujia)}{HV 541.1, HRC 51.8}
+\caption{OM micrographs of artificially aged 2A12 Al alloy at 260\,\textdegree C. The main precipitation products are too fine to be directly resolved by ordinary OM.}
+\end{figure}
+
+\reportsection{4.2.1 Key findings}
+\begin{enumerate}[label=(\arabic*)]
+\item Under artificial aging at 260\,\textdegree C, hardness generally fluctuated upward at first, reached the highest value around 80 min, and then decreased with a slight recovery. The highest value was obtained for the 80 min sample, with HV 589.8 and HRC 54.7.
+\item The 40 min sample showed an abnormally low hardness of only HV 414.3, lower than both the adjacent 20 min and 60 min samples. This result is more likely related to indentation position, surface preparation quality, a local coarse second-phase region, or testing error, and should not be taken alone as the general trend of the 40 min aging state.
+\item The 100 min and 120 min samples had lower hardness than the 80 min peak. This suggests that, at the relatively high aging temperature of 260\,\textdegree C, precipitates may already have begun to grow or coarsen, reducing their strengthening efficiency.
+\end{enumerate}
+
+\reportsection{4.2.2 Discussion}
+\reportpara{During artificial aging, fine and dispersed strengthening phases gradually precipitate from the supersaturated solid solution. In the early stage of aging, the number of precipitates increases, their size remains small, and their interaction with the matrix is strong. These precipitates effectively impede dislocation motion and thus increase hardness. As aging continues, precipitate spacing and size change, and the alloy approaches the peak-aged condition. In the present dataset, the highest hardness of the 80 min sample can be regarded as close to the peak-aged state under the selected experimental conditions.}
+\reportpara{2A12 aluminum alloy is a heat-treatable Al--Cu--Mg alloy. During aging, it typically undergoes solute clustering, formation of GP zones, formation of metastable precipitates such as $\theta'$ and $S'$, and subsequent growth or coarsening of stable phases such as $\theta$ and $S$. The stronger the interaction between fine precipitates and the aluminum matrix, the greater the resistance that dislocations must overcome, and the higher the hardness. Once precipitates grow, their spacing increases, or their coherency with the matrix weakens, dislocations can bypass them more easily and hardness decreases.}
+\reportpara{From the data, the 20 min sample had HV 547.0, the 60 min sample had HV 556.0, and the 80 min sample increased to HV 589.8. Taking the 20 min sample as an early-aging reference, the hardness increased by about 42.8 HV at 80 min, indicating that precipitation strengthening became more effective during this stage. The 100 min sample then decreased to HV 520.8, which is 69.0 HV lower than the 80 min peak. The 120 min sample had HV 541.1 and remained below the peak, suggesting that the alloy had already shown an over-aging tendency.}
+\reportpara{When the aging time was extended to 100 min and 120 min, precipitates may have grown, coarsened, or lost coherency with the matrix. The resistance required for dislocations to cut through or bypass precipitates would then decrease, causing the alloy to enter an over-aging tendency and resulting in lower hardness than at 80 min. Because 260\,\textdegree C is higher than the commonly recommended artificial-aging temperature range for many Al--Cu--Mg alloys, precipitation and coarsening kinetics are relatively fast. It is therefore reasonable that the peak-aged condition appeared earlier, and that a decline after the peak was observed within 120 min rather than requiring much longer aging times.}
+\reportpara{The low hardness of the 40 min sample is the main anomaly in this dataset. From the OM-based interpretation, if this low value resulted from severe microstructural abnormality, obvious burning, severe over-etching, coarse precipitates, or significant surface damage would usually be expected. However, the OM images do not show a morphology that is sharply different from the other aged samples. Therefore, this point is more likely caused by accidental hardness-testing error, such as an indentation placed on a surface defect, contaminant, or local soft region, or by deviation in reading or loading operation. To obtain a more reliable hardness-aging curve, multiple indentations should be measured on each sample and averaged.}
+
+\reportsection{4.2.3 Time-dependent aging interpretation}
+\noindent
+\small
+\begin{longtable}{@{}M{0.171\textwidth}@{}M{0.152\textwidth}@{}M{0.627\textwidth}@{}}
+\caption{Interpretation of hardness evolution at 260\,\textdegree C}\\
+\toprule
+\textbf{Aging time} & \textbf{HV} & \textbf{Interpretation} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Aging time} & \textbf{HV} & \textbf{Interpretation} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+20 min & 547.0 & Early aging stage. Solute atoms begin to cluster and form strengthening features, but precipitate number density and distribution may not yet be sufficient to provide maximum resistance to dislocation motion. \\
+40 min & 414.3 & Abnormally low point. It deviates from the neighboring 20 min and 60 min samples, so it is treated as a local testing or preparation-related deviation rather than the main trend of aging response. \\
+60 min & 556.0 & Intermediate aging stage. The hardness is close to but slightly higher than the 20 min sample, suggesting that precipitation strengthening has developed but has not reached the strongest condition. \\
+80 min & 589.8 & Peak value in this dataset. This sample is interpreted as closest to the peak-aged condition under the selected 260\,\textdegree C aging schedule. \\
+100 min & 520.8 & Lower than the 80 min peak. The reduction suggests that precipitates may have started to coarsen or lose effective interaction with dislocations, indicating an over-aging tendency. \\
+120 min & 541.1 & Still lower than the 80 min peak. The slight recovery relative to 100 min may reflect local measurement variation, but it does not change the overall interpretation that the peak occurs before or around 80 min. \\
+\bottomrule
+\end{longtable}
+
+\reportsection{4.3 Overall discussion}
+\reportpara{Considering the two experimental parts together, the hardness evolution of 2A12 aluminum alloy was mainly controlled by three factors: solution state, precipitate size and distribution, and local testing position. The higher average hardness of the original state than the solution-treated state indicates that solution treatment itself is not the final strengthened condition. Instead, it is a preparation step that creates a supersaturated matrix for subsequent aging strengthening.}
+\reportpara{At a fixed aging temperature of 260\,\textdegree C, the main time-dependent trend can be described as under-aged, peak-aged, and over-aged behavior. In the under-aged stage, the number of precipitates is insufficient and dislocation motion is not strongly impeded. Near peak aging, fine and dispersed precipitates provide the strongest strengthening effect. During over-aging, precipitate coarsening reduces strengthening efficiency. Although the curve is affected by the anomalously low 40 min value, the increase from 60 min to 80 min and the lower hardness at 100--120 min are still consistent with precipitation-strengthening theory.}
+\reportpara{The evidence chain in this experiment can be summarized as follows: the heat-treatment path determines the solid-solution and precipitation state; the precipitation state determines the resistance to dislocation motion; and this resistance is finally reflected in hardness readings. The comparison between the original and solution-treated states shows that solution treatment and quenching alone do not directly produce the highest hardness. The comparison among aged samples indicates that, at 260\,\textdegree C, the peak-aged region is close to 80 min under the present conditions. Together, the two parts support the judgment that the hardness of 2A12 aluminum alloy is mainly governed by its precipitation-strengthening state.}
+\reportpara{The OM images do not show phase-transformation morphologies as clear as martensite or pearlite in steels, which is typical for aging experiments on aluminum alloys. Ordinary OM is more suitable for observing surface condition, etching uniformity, obvious defects, and relatively coarse particles, whereas the key precipitates responsible for age hardening generally require higher-resolution methods for direct observation. Therefore, the main evidence in this experiment should be the heat-treatment route and hardness evolution, with OM images serving as supporting evidence to confirm the absence of obvious macroscopic abnormalities rather than to identify nanoscale precipitates directly.}
+
+\reportsection{4.4 Error analysis and improvement}
+\reportpara{The main uncertainties in this experiment come from three sources. First, hardness testing is highly sensitive to indentation position. Coarse second-phase particles, local etching pits, and aluminum matrix regions coexist in 2A12 aluminum alloy. If an indentation is placed near any of these features, the measured hardness may be either higher or lower than the representative value. Second, metallographic preparation affects surface condition. Insufficient polishing, remaining deep scratches, or over-etching may blur indentation edges and influence the reading. Third, the actual transfer speed, quenching delay, and furnace-temperature uniformity may differ among samples. These differences are especially important during water quenching after solution treatment and at the beginning of artificial aging, where even short time deviations may alter the precipitation state.}
+\reportpara{To improve experimental reliability, future tests should select multiple positions on each sample away from edges and obvious defects, then report the average value and scatter. For an obvious outlier such as the 40 min sample, the sample should be re-prepared or additional indentations should be measured to determine whether the value reflects a true microstructural state or a local testing deviation. If conditions allow, SEM or TEM could be used to observe fine precipitates, while DSC or XRD could help identify precipitation processes. These methods would build a more direct connection between hardness evolution and precipitate evolution.}
+\reportpara{Despite these limitations, the experiment still supports the basic conclusion that solution treatment places 2A12 aluminum alloy in a transition state suitable for age hardening, and artificial aging further changes the precipitation state and increases hardness over a certain time range. When aging time is too long or the temperature is relatively high, precipitate coarsening reduces the strengthening effect. Therefore, the experiment is more suitable for understanding the trend of age hardening than for determining an absolute engineering hardness value for a specific treatment state.}
+
+\reportsection{5. Conclusions}
+\begin{enumerate}[label=(\arabic*)]
+\item Six comparison samples of 2A12 aluminum alloy were first tested by hardness measurement and OM observation, including three original/non-solution-treated samples and three solution-treated samples. Each group member then completed one aged sample with a different aging time.
+\item The average hardness of the original samples was HV 610.5 and HRC 55.7, higher than the average hardness of the solution-treated samples, HV 573.7 and HRC 53.7. This indicates that solution treatment mainly provides a supersaturated solid solution for subsequent aging and does not directly correspond to the highest hardness.
+\item Under artificial aging at 260\,\textdegree C, the 80 min sample reached the highest hardness in this group, HV 589.8 and HRC 54.7. It can be regarded as close to the peak-aged state under the present experimental conditions. The decreased hardness of the 100 min and 120 min samples indicates an over-aging tendency.
+\item The 40 min sample showed a markedly low hardness and is the main anomalous point in this dataset. Because the corresponding OM image does not show obvious microstructural abnormality or severe surface damage, the low value is more likely related to indentation-position deviation, surface preparation quality, contamination, or reading error. The trend should be judged by multi-point testing and averaged hardness values in future work.
+\item The essence of age hardening in 2A12 aluminum alloy is that fine precipitation features such as GP zones, $\theta'$, and $S'$ impede dislocation motion. Ordinary OM cannot directly resolve these key precipitates. Therefore, this report uses hardness evolution as the main basis for analysis, while OM images are used to support evaluation of surface condition, etching quality, and possible macroscopic abnormalities.
+\end{enumerate}
+
+\reportsection{Appendix Contribution of Group Members}
+\noindent
+\begingroup
+\scriptsize
+\renewcommand{\arraystretch}{0.86}
+\begin{longtable}{@{}L{0.140\textwidth}@{}L{0.470\textwidth}@{}P{0.340\textwidth}@{}}
+\caption{Contribution of group members}\\
+\toprule
+\textbf{Member} & \textbf{Task} & \textbf{Remarks} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Member} & \textbf{Task} & \textbf{Remarks} \\
+\midrule
+\endhead
+\midrule
+\endfoot
+\endlastfoot
+\textbf{Che Xuanming (me)} & Coordination; batch-1 solid-solution HV testing and recording; batch-2 60 min aged sample testing. & Unified tables, figures, and layout checking. \\
+Zheng Junhao & Batch-1 solid-solution-treated 2A12 Al; batch-2 20 min aged sample. & Data aggregation and table/figure formatting. \\
+Han Yujia & Batch-2 120 min aged sample; supplementary imaging and recording for batch-1 solid-solution-treated 2A12 Al. & Checking of corresponding records. \\
+Wang Yixuan & Batch-1 original 2A12 Al; batch-2 80 min aged sample. & Hardness data completion; experimental data recording and organization; image organization. \\
+Zhang Yuchen & Batch-1 original 2A12 Al; batch-2 40 min aged sample. & Measurement support and microstructural interpretation. \\
+Kong Xianglu & Batch-1 original 2A12 Al; batch-2 100 min aged sample. & OM image acquisition and archiving. \\
+\bottomrule
+\end{longtable}
+\endgroup
+\end{document}

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 134" role="img" aria-labelledby="title desc">
+  <title id="title">Xi'an charging infrastructure growth chart</title>
+  <desc id="desc">Three key metrics and a bar chart showing annual new charging piles inside Xi'an third ring road from 2020 to 2022.</desc>
+  <rect width="900" height="134" fill="#ffffff"/>
+  <defs>
+    <style>
+      .title { font: 700 16px Arial, Helvetica, sans-serif; fill: #18822b; }
+      .label { font: 700 13px Arial, Helvetica, sans-serif; fill: #000000; }
+      .axis { font: 600 11px Arial, Helvetica, sans-serif; fill: #000000; }
+      .num { font: 800 23px Arial, Helvetica, sans-serif; fill: #20b84d; }
+      .tick { font: 500 10px Arial, Helvetica, sans-serif; fill: #000000; }
+      .value { font: 700 11px Arial, Helvetica, sans-serif; fill: #18822b; }
+    </style>
+  </defs>
+
+  <g transform="translate(18 19)">
+    <rect x="0" y="0" width="4" height="95" fill="#18822b"/>
+    <g transform="translate(14 0)">
+      <text class="num" x="0" y="19">6,479</text>
+      <text class="label" x="96" y="17">new piles, 2020-2022</text>
+      <line x1="0" y1="40" x2="230" y2="40" stroke="#18822b" stroke-width="2"/>
+
+      <text class="num" x="0" y="59">352</text>
+      <text class="label" x="96" y="57">stations connected, 2022</text>
+      <line x1="0" y1="80" x2="230" y2="80" stroke="#18822b" stroke-width="2"/>
+
+      <text class="num" x="0" y="99">7,845</text>
+      <text class="label" x="96" y="97">piles connected, 2022</text>
+    </g>
+  </g>
+
+  <g transform="translate(335 13)">
+    <text class="title" x="282" y="15" text-anchor="middle">Annual new charging piles inside the Third Ring</text>
+    <text class="axis" x="-22" y="66" text-anchor="middle" transform="rotate(-90 -22 66)">New charging piles</text>
+
+    <line x1="54" y1="28" x2="54" y2="102" stroke="#000000" stroke-width="1"/>
+    <line x1="54" y1="102" x2="564" y2="102" stroke="#000000" stroke-width="1"/>
+    <line x1="54" y1="65" x2="564" y2="65" stroke="#c9d8cf" stroke-width="1"/>
+    <line x1="54" y1="28" x2="564" y2="28" stroke="#c9d8cf" stroke-width="1"/>
+    <text class="tick" x="44" y="105" text-anchor="end">0</text>
+    <text class="tick" x="44" y="68" text-anchor="end">2,000</text>
+    <text class="tick" x="44" y="31" text-anchor="end">4,000</text>
+
+    <g transform="translate(134 0)">
+      <rect x="0" y="83" width="58" height="19" fill="#2dbb57"/>
+      <text class="value" x="29" y="77" text-anchor="middle">1,012</text>
+      <text class="axis" x="29" y="119" text-anchor="middle">2020</text>
+    </g>
+    <g transform="translate(268 0)">
+      <rect x="0" y="69" width="58" height="33" fill="#5b7d81"/>
+      <text class="value" x="29" y="63" text-anchor="middle">1,785</text>
+      <text class="axis" x="29" y="119" text-anchor="middle">2021</text>
+    </g>
+    <g transform="translate(402 0)">
+      <rect x="0" y="33" width="58" height="69" fill="#238c37"/>
+      <text class="value" x="29" y="27" text-anchor="middle">3,682</text>
+      <text class="axis" x="29" y="119" text-anchor="middle">2022</text>
+    </g>
+    <text class="axis" x="309" y="131" text-anchor="middle">Year</text>
+  </g>
+</svg>

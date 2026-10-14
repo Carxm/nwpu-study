@@ -1,0 +1,6018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naples EV Transition — 2026 Coursework Archive</title>
+  <style>
+    :root {
+      --thu-purple: #2b872b;
+      --thu-purple-2: #238033;
+      --thu-gold: #9a844f;
+      --ink: #000000;
+      --muted: #000000;
+      --soft: #f4f8f1;
+      --soft-2: #fafafa;
+      --line: #dce7d5;
+      --green: #2fb44b;
+      --burgundy: #8a5a4c;
+      --teal: #5e7772;
+      --gray: #000000;
+      --page: #f0f2f0;
+      --slide: #ffffff;
+      --dash-border: rgba(43, 135, 43, 0.86);
+      --dash-bg: rgba(246, 250, 243, 0.78);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .deck {
+      display: block;
+      width: 1280px;
+      height: 720px;
+      padding: 0;
+      transform: scale(var(--deck-scale, 1));
+      transform-origin: center center;
+      transition: transform 0.18s ease;
+    }
+
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: var(--slide);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.10);
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+      padding: 24px 70px 44px;
+      display: none;
+    }
+
+    .deck .slide:not(.is-active) {
+      display: none !important;
+    }
+
+    .deck .slide.is-active {
+      display: block !important;
+    }
+
+    .deck .slide.cover.is-active,
+    .deck .slide.question-only.is-active {
+      display: flex !important;
+    }
+
+    .slide,
+    .slide * {
+      font-family: Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    }
+
+    .slide::after {
+      content: attr(data-page);
+      position: absolute;
+      right: 58px;
+      bottom: 16px;
+      color: #000000;
+      font-size: 13px;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--thu-purple);
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+
+    .header h2 {
+      margin: 0;
+      color: var(--thu-purple);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+      font-size: 36px;
+      line-height: 1.12;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+
+    .slide[data-page="4"],
+    .slide[data-page="4"] .header h2,
+    .slide[data-page="4"] .bridge-thesis,
+    .slide[data-page="4"] .actor-kpi-chain,
+    .slide[data-page="4"] .flow-node,
+    .slide[data-page="4"] .flow-outcome,
+    .slide[data-page="4"] .payback-mini,
+    .slide[data-page="4"] .feedback-loop-mini {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .slide[data-page="4"] .header h2 {
+      font-size: 30px;
+      line-height: 1.12;
+    }
+
+    .slide[data-page="4"] .header {
+      margin-bottom: 12px;
+    }
+
+    .chapter {
+      display: none;
+    }
+
+    .header-sub {
+      display: none;
+      text-align: right;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 330px;
+    }
+
+    .footer {
+      position: absolute;
+      left: 70px;
+      right: 102px;
+      bottom: 13px;
+      border-top: 1px solid #000000;
+      padding-top: 4px;
+      color: #000000;
+      font-size: 8.6px;
+      line-height: 1.18;
+    }
+
+    .cover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 92px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .cover-content {
+      width: 100%;
+      max-width: 1060px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-mark {
+      width: auto;
+      height: auto;
+      border: none;
+      color: var(--thu-purple);
+      border-radius: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 16px;
+      border-top: 3px solid var(--thu-purple);
+      border-bottom: 1px solid var(--line);
+      padding: 9px 30px;
+    }
+
+    .cover h1 {
+      font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+      color: var(--thu-purple);
+      font-size: 49px;
+      line-height: 1.18;
+      margin: 0 0 15px;
+      letter-spacing: 0;
+    }
+
+    .cover h1.english-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: 45px;
+      line-height: 1.16;
+    }
+
+    .cover .subtitle {
+      font-size: 20px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 auto;
+      max-width: 860px;
+    }
+
+    .cover-info {
+      margin: 26px auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-width: 470px;
+    }
+
+    .cover-info div {
+      border-top: none;
+      background: transparent;
+      padding: 6px 0;
+      display: grid;
+      grid-template-columns: 120px 190px;
+      justify-content: center;
+      column-gap: 18px;
+      text-align: center;
+      width: 100%;
+      min-height: 0;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .cover-info b {
+      display: inline-block;
+      color: var(--thu-purple);
+      font-size: 18px;
+      margin-bottom: 0;
+      margin-right: 0;
+      width: auto;
+      text-align: center;
+      text-align-last: center;
+      white-space: nowrap;
+    }
+
+    .cover-info span { color: var(--muted); font-size: 18px; line-height: 1.55; text-align: center; }
+
+    .city-transfer {
+      width: 910px;
+      max-width: 100%;
+      height: 150px;
+      margin: 0 auto 18px;
+      position: relative;
+      overflow: hidden;
+      border: 1.4px solid rgba(43, 135, 43, 0.55);
+      background: #f7faf5;
+    }
+
+    .city-transfer img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .city-transfer .xian-photo {
+      object-position: center 40%;
+      animation: xianPhoto 9s ease-in-out infinite;
+    }
+
+    .city-transfer .naples-photo {
+      object-position: center 46%;
+      opacity: 0;
+      animation: naplesPhotoFade 9s ease-in-out infinite;
+    }
+
+    .city-transfer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.34), rgba(0,0,0,0.05) 42%, rgba(0,0,0,0.12) 58%, rgba(0,0,0,0.38)),
+        linear-gradient(0deg, rgba(0,0,0,0.38), rgba(0,0,0,0.02) 52%, rgba(255,255,255,0.08));
+      pointer-events: none;
+    }
+
+    .city-transfer::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      top: 0;
+      width: 74px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.46), transparent);
+      animation: lightSweep 9s ease-in-out infinite;
+    }
+
+    .photo-label {
+      position: absolute;
+      z-index: 4;
+      bottom: 14px;
+      min-width: 108px;
+      padding: 5px 12px;
+      color: #ffffff;
+      background: rgba(0,0,0,0.52);
+      border: 1px solid rgba(255,255,255,0.62);
+      font-family: Arial, "Noto Sans SC", "PingFang SC", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    .photo-label.xian {
+      left: 22px;
+    }
+
+    .photo-label.naples {
+      right: 22px;
+    }
+
+    .photo-route {
+      position: absolute;
+      z-index: 4;
+      left: 210px;
+      right: 210px;
+      top: 32px;
+      height: 34px;
+      border-top: 2px dashed rgba(255,255,255,0.88);
+      transform: skewX(-18deg);
+      animation: routeGlow 9s ease-in-out infinite;
+    }
+
+    .photo-route::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: -6px;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 10px solid rgba(255,255,255,0.92);
+    }
+
+    .photo-transfer-text {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      top: 50px;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-family: Arial, "Noto Sans SC", "PingFang SC", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.72);
+    }
+
+    .photo-ev-dot {
+      position: absolute;
+      z-index: 5;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #ffffff;
+      background: #2fb44b;
+      top: 25px;
+      left: 210px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.32);
+      animation: transferDot 9s ease-in-out infinite;
+    }
+
+    @keyframes xianPhoto {
+      0%, 28% { opacity: 1; transform: scale(1.02) translateX(0); }
+      56%, 82% { opacity: 0.18; transform: scale(1.08) translateX(-18px); }
+      100% { opacity: 1; transform: scale(1.02) translateX(0); }
+    }
+
+    @keyframes naplesPhotoFade {
+      0%, 24% { opacity: 0; transform: scale(1.06) translateX(16px); }
+      54%, 84% { opacity: 1; transform: scale(1.02) translateX(0); }
+      100% { opacity: 0; transform: scale(1.06) translateX(16px); }
+    }
+
+    @keyframes lightSweep {
+      0%, 22% { left: -80px; opacity: 0; }
+      36% { opacity: 0.72; }
+      62%, 84% { left: 100%; opacity: 0.5; }
+      100% { left: -80px; opacity: 0; }
+    }
+
+    @keyframes routeGlow {
+      0%, 22% { opacity: 0.15; }
+      38%, 76% { opacity: 1; }
+      100% { opacity: 0.15; }
+    }
+
+    @keyframes transferDot {
+      0%, 20% { opacity: 0; left: 210px; }
+      30% { opacity: 1; }
+      62%, 82% { opacity: 1; left: 680px; }
+      100% { opacity: 0; left: 210px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .city-transfer .xian-photo,
+      .city-transfer .naples-photo,
+      .city-transfer::after,
+      .photo-route,
+      .photo-ev-dot {
+        animation: none;
+      }
+      .city-transfer .naples-photo { opacity: 0.84; transform: none; }
+      .photo-ev-dot { opacity: 1; left: 50%; }
+    }
+
+    .question-only {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 120px;
+    }
+
+    .question-only::after {
+      display: none;
+    }
+
+    .question-only h2 {
+      margin: 0;
+      color: var(--thu-purple);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 50px;
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .full-map-slide {
+      padding: 18px 38px 30px;
+    }
+
+    .full-map-slide .header {
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+    }
+
+    .full-map-slide .header h2 {
+      font-size: 30px;
+      line-height: 1.12;
+    }
+
+    .full-map-slide .chapter {
+      margin-bottom: 5px;
+      font-size: 12.5px;
+    }
+
+    .full-map-slide .header-sub {
+      max-width: 420px;
+      font-size: 12px;
+    }
+
+    .system-image-frame {
+      grid-row: 1;
+      grid-column: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .system-image-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .system-map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 276px;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 7px 12px;
+      height: 586px;
+      align-items: stretch;
+    }
+
+    .system-map-caption {
+      grid-column: 1;
+      grid-row: 2;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.35;
+      font-weight: 600;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .system-map-notes,
+    .priority-map-notes,
+    .cld-map-notes {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 0;
+      align-content: stretch;
+    }
+
+    .system-map-notes p,
+    .priority-map-notes p,
+    .cld-map-notes p {
+      margin: 0;
+      border: 0;
+      background: transparent;
+      padding: 0 4px 0 2px;
+      color: var(--ink);
+      font-size: 14.2px;
+      line-height: 1.45;
+      font-weight: 600;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      align-items: center;
+      column-gap: 7px;
+    }
+
+    .system-map-notes p::before,
+    .priority-map-notes p::before,
+    .cld-map-notes p::before {
+      content: "•";
+      color: #000;
+      font-size: 22px;
+      line-height: 1;
+      align-self: center;
+    }
+
+    .system-map-notes b,
+    .priority-map-notes b,
+    .cld-map-notes b {
+      color: var(--thu-purple);
+      margin-right: 4px;
+    }
+
+    .cld-image-frame {
+      grid-row: 1;
+      grid-column: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .cld-image-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .cld-map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 276px;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 7px 12px;
+      height: 586px;
+      align-items: stretch;
+    }
+
+    .cld-map-caption {
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.35;
+      font-weight: 600;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .cld-map-caption b {
+      color: var(--thu-purple);
+      margin-right: 4px;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 44px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .split-wide { display: grid; grid-template-columns: 0.64fr 0.36fr; gap: 42px; }
+
+    .section-title {
+      color: var(--thu-purple);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      border-left: 4px solid var(--thu-purple);
+      padding-left: 12px;
+      margin: 0 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--line), transparent);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      margin: 8px 0 0;
+    }
+
+    .claim {
+      color: var(--ink);
+      font-size: 17.5px;
+      font-weight: 650;
+      line-height: 1.55;
+      margin-top: 18px;
+      padding: 0 0 0 22px;
+      background: transparent;
+      border: 0;
+      position: relative;
+      display: block;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .claim[style*="text-align:center"] {
+      text-align: left !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .claim::before,
+    .story-lead::before,
+    .bridge-thesis::before,
+    .diagnosis-note::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      top: 0.02em;
+      color: var(--ink);
+      font-size: 1.15em;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .small { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    .muted { color: var(--muted); }
+    .purple { color: var(--thu-purple); }
+    .gold { color: var(--thu-gold); }
+    .green { color: var(--green); }
+    .red { color: var(--burgundy); }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 88px;
+      align-items: center;
+      gap: 14px;
+      margin: 14px 0 22px;
+    }
+
+    .bar-track {
+      height: 26px;
+      background: #f2f5f2;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bar-fill { height: 100%; background: var(--thu-purple); width: var(--w); }
+    .bar-fill.gold { background: var(--thu-gold); }
+    .bar-fill.green { background: var(--green); }
+    .bar-fill.teal { background: var(--teal); }
+    .bar-fill.red { background: var(--burgundy); }
+    .bar-value { font-weight: 700; color: var(--thu-purple); font-size: 17px; }
+
+    .foundation-list {
+      display: grid;
+      gap: 13px;
+      margin: 6px 0 22px;
+    }
+
+    .foundation-item {
+      display: grid;
+      grid-template-columns: 154px 1fr;
+      gap: 15px;
+      align-items: start;
+      padding-bottom: 11px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .foundation-item b {
+      color: var(--thu-purple);
+      font-size: 15.5px;
+      line-height: 1.25;
+    }
+
+    .foundation-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.38;
+    }
+
+    .foundation-item .metric-text {
+      color: var(--thu-purple);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .funding-pie-card {
+      display: grid;
+      grid-template-columns: 152px 1fr;
+      gap: 20px;
+      align-items: center;
+      margin: 12px 0 12px;
+    }
+
+    .funding-donut {
+      width: 146px;
+      height: 146px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--green) 0 80.6%,
+        var(--teal) 80.6% 100%
+      );
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+    }
+
+    .funding-donut::after {
+      content: "€180m\Atotal";
+      white-space: pre;
+      position: absolute;
+      inset: 33px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--thu-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .funding-label {
+      position: absolute;
+      z-index: 2;
+      padding: 3px 5px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--ink);
+      font-size: 9.8px;
+      line-height: 1.05;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 0 0 1px rgba(43, 135, 43, 0.16);
+    }
+
+    .funding-label.vehicle {
+      right: 9px;
+      bottom: 28px;
+      color: var(--thu-purple);
+    }
+
+    .funding-label.charging {
+      left: 9px;
+      top: 18px;
+      color: var(--teal);
+    }
+
+    .funding-pie-copy {
+      display: grid;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .funding-pie-copy b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 14.5px;
+      margin-bottom: 3px;
+    }
+
+    .funding-pie-copy .amount {
+      color: var(--thu-purple);
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    .funding-pie-copy i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--c);
+      margin-right: 7px;
+      vertical-align: -1px;
+    }
+
+    .funding-takeaway {
+      color: var(--ink);
+      font-size: 12.5px;
+      line-height: 1.4;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      margin-top: 1px;
+    }
+
+    .naples-status-slide .grid-2 {
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 32px;
+    }
+
+    .naples-status-slide,
+    .naples-status-slide * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .naples-status-slide .funding-donut::after {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .naples-status-slide .section-title {
+      margin-bottom: 9px;
+      font-size: 20px;
+      line-height: 1.18;
+    }
+
+    .naples-status-slide .foundation-list {
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .naples-status-slide .foundation-item {
+      padding-bottom: 7px;
+      grid-template-columns: 150px 1fr;
+      gap: 13px;
+    }
+
+    .naples-status-slide .foundation-item b {
+      font-size: 16px;
+      line-height: 1.23;
+    }
+
+    .naples-status-slide .foundation-item span {
+      font-size: 13.35px;
+      line-height: 1.32;
+    }
+
+    .naples-status-slide .funding-pie-card {
+      grid-template-columns: 144px 1fr;
+      gap: 16px;
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    .naples-status-slide .funding-donut {
+      width: 136px;
+      height: 136px;
+    }
+
+    .naples-status-slide .funding-donut::after {
+      inset: 27px;
+      font-size: 17px;
+      line-height: 1.1;
+    }
+
+    .naples-status-slide .funding-label {
+      font-size: 10.5px;
+    }
+
+    .naples-status-slide .funding-label.vehicle {
+      right: 7px;
+      bottom: 23px;
+    }
+
+    .naples-status-slide .funding-label.charging {
+      left: 6px;
+      top: 16px;
+    }
+
+    .naples-status-slide .funding-pie-copy {
+      gap: 9px;
+      font-size: 13.35px;
+      line-height: 1.32;
+    }
+
+    .naples-status-slide .funding-pie-copy b {
+      font-size: 15.2px;
+    }
+
+    .naples-status-slide .funding-pie-copy .amount {
+      font-size: 22px;
+    }
+
+    .naples-status-slide .funding-takeaway {
+      font-size: 11.8px;
+      padding-top: 7px;
+    }
+
+    .naples-photo-evidence {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin: 6px 0 12px;
+    }
+
+    .naples-photo-evidence figure {
+      margin: 0;
+      border: 1.5px solid #000;
+      background: #fff;
+      padding: 5px;
+      min-width: 0;
+    }
+
+    .naples-photo-evidence img {
+      display: block;
+      width: 100%;
+      height: 86px;
+      object-fit: cover;
+      filter: saturate(0.96) contrast(1.03);
+    }
+
+    .naples-photo-evidence figcaption {
+      margin-top: 5px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: var(--muted); }
+    .legend i { display: inline-block; width: 12px; height: 12px; margin-right: 7px; vertical-align: -1px; background: var(--thu-purple); }
+
+    .waffle {
+      display: grid;
+      grid-template-columns: repeat(10, 16px);
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .waffle span {
+      width: 16px;
+      height: 16px;
+      background: #e4e9e4;
+      display: block;
+    }
+
+    .waffle span.filled { background: var(--thu-purple); }
+
+    .big-number {
+      font-family: Georgia, serif;
+      font-size: 58px;
+      color: var(--thu-purple);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .timeline {
+      position: relative;
+      height: 290px;
+      margin-top: 28px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      top: 84px;
+      height: 4px;
+      background: #d2ddd3;
+    }
+
+    .milestone {
+      position: absolute;
+      top: 0;
+      width: 180px;
+      text-align: center;
+      transform: translateX(-50%);
+    }
+
+    .milestone .year {
+      color: var(--thu-purple);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .milestone .pin {
+      width: 18px;
+      height: 18px;
+      background: var(--thu-gold);
+      margin: 0 auto 28px;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 2px var(--thu-gold);
+    }
+
+    .milestone h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .milestone p {
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+      max-width: 170px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      color: var(--ink);
+    }
+
+    th {
+      background: var(--thu-purple);
+      color: #fff;
+      padding: 10px;
+      font-weight: 700;
+      border: 1px solid var(--thu-purple);
+    }
+
+    td {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      vertical-align: middle;
+      line-height: 1.35;
+    }
+
+    td:first-child { color: var(--ink); font-weight: 700; }
+
+    .evidence-row {
+      display: grid;
+      grid-template-columns: 142px 1fr 42px;
+      gap: 12px;
+      align-items: center;
+      margin: 16px 0;
+    }
+
+    .level {
+      font-weight: 700;
+      color: var(--thu-purple);
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .limit-box {
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--thu-gold);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      min-height: 62px;
+      background: var(--soft-2);
+    }
+
+    .limit-box b { color: var(--thu-purple); display: inline-block; width: 58px; }
+
+    .bridge-row {
+      display: grid;
+      grid-template-columns: 270px 1fr 360px;
+      gap: 18px;
+      align-items: center;
+      margin: 18px 0;
+    }
+
+    .bridge-card {
+      border: 1px solid var(--line);
+      background: var(--soft-2);
+      padding: 15px 18px;
+      font-weight: 700;
+      min-height: 52px;
+    }
+
+    .bridge-line {
+      height: 5px;
+      background: var(--thu-gold);
+      position: relative;
+    }
+
+    .bridge-line::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -5px;
+      width: 0;
+      height: 0;
+      border-left: 13px solid var(--thu-gold);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .translation-page {
+      display: grid;
+      grid-template-rows: 86px 1fr auto;
+      gap: 13px;
+      min-height: 558px;
+    }
+
+    .slide[data-page="6"],
+    .slide[data-page="6"] * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .slide[data-page="6"] .header h2 {
+      font-size: 33px;
+      line-height: 1.14;
+    }
+
+    .slide[data-page="6"] .header-sub {
+      font-size: 15px;
+      line-height: 1.38;
+      max-width: 420px;
+    }
+
+    .slide[data-page="6"] .translation-page {
+      grid-template-rows: 76px minmax(0, 1fr) auto;
+      gap: 4px;
+      height: 548px;
+      min-height: 0;
+    }
+
+    .slide[data-page="6"] .blueprint-photo-band {
+      min-height: 76px;
+    }
+
+    .slide[data-page="6"] .blueprint-photo-band img.blueprint-bus-photo {
+      inset: 9px 16px auto auto;
+      width: 150px;
+      height: 56px;
+    }
+
+    .slide[data-page="6"] .blueprint-band-copy {
+      max-width: 890px;
+      padding: 10px 14px;
+    }
+
+    .slide[data-page="6"] .blueprint-band-copy b {
+      font-size: 19px;
+      margin-bottom: 5px;
+    }
+
+    .slide[data-page="6"] .blueprint-band-copy span {
+      font-size: 14.8px;
+      line-height: 1.24;
+    }
+
+    .slide[data-page="6"] .blueprint-rail h3,
+    .slide[data-page="6"] .blueprint-route-title,
+    .slide[data-page="6"] .blueprint-outcomes h3 {
+      font-size: 16.8px;
+      margin-bottom: 7px;
+    }
+
+    .slide[data-page="6"] .blueprint-gap-item b,
+    .slide[data-page="6"] .blueprint-outcome-item b {
+      font-size: 13.8px;
+    }
+
+    .slide[data-page="6"] .blueprint-gap-item span,
+    .slide[data-page="6"] .blueprint-outcome-item span {
+      font-size: 11.4px;
+      line-height: 1.22;
+    }
+
+    .slide[data-page="6"] .blueprint-step-icon {
+      width: 46px;
+      height: 46px;
+    }
+
+    .slide[data-page="6"] .blueprint-step-icon svg {
+      width: 29px;
+      height: 29px;
+      stroke-width: 2.4;
+    }
+
+    .slide[data-page="6"] .blueprint-step-copy b {
+      font-size: 14.8px;
+      line-height: 1.25;
+    }
+
+    .slide[data-page="6"] .blueprint-step-copy span {
+      font-size: 11.9px;
+      line-height: 1.24;
+    }
+
+    .slide[data-page="6"] .translation-rule {
+      font-size: 15px;
+    }
+
+    .slide[data-page="6"] .blueprint-gap-item,
+    .slide[data-page="6"] .blueprint-outcome-item,
+    .slide[data-page="6"] .blueprint-step {
+      align-items: start;
+    }
+
+    .slide[data-page="6"] .blueprint-canvas {
+      gap: 10px !important;
+      grid-template-columns: 238px 1fr 226px !important;
+    }
+
+    .slide[data-page="6"] .blueprint-gap-list,
+    .slide[data-page="6"] .blueprint-outcome-list {
+      gap: 4px !important;
+      height: calc(100% - 29px) !important;
+    }
+
+    .slide[data-page="6"] .blueprint-route-list {
+      gap: 1px !important;
+      height: calc(100% - 29px) !important;
+    }
+
+    .slide[data-page="6"] .blueprint-route-list::before {
+      top: 12px !important;
+      bottom: 12px !important;
+    }
+
+    .slide[data-page="6"] .blueprint-route {
+      padding: 0 12px 0 !important;
+    }
+
+    .slide[data-page="6"] .blueprint-outcomes {
+      padding: 0 !important;
+    }
+
+    .slide[data-page="6"] .blueprint-route-title,
+    .slide[data-page="6"] .blueprint-outcomes h3 {
+      margin-bottom: 3px !important;
+      padding-bottom: 3px !important;
+    }
+
+    .slide[data-page="6"] .blueprint-step {
+      gap: 8px !important;
+    }
+
+    .slide[data-page="6"] .blueprint-step-copy {
+      padding: 5px 7px 5px 9px !important;
+    }
+
+    .slide[data-page="6"] .blueprint-outcome-item {
+      padding: 4px 0 4px 8px !important;
+      border-left: 3px solid var(--thu-gold) !important;
+      max-width: none !important;
+    }
+
+    .slide[data-page="6"] .blueprint-gap-item {
+      padding: 4px 0 !important;
+    }
+
+    .slide[data-page="6"] .blueprint-step-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .slide[data-page="6"] .blueprint-step-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .slide[data-page="6"] .blueprint-step-copy b {
+      margin-bottom: 1px;
+    }
+
+    .translation-lead {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.36;
+      margin: 0;
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .translation-lead::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      top: 0.02em;
+      color: var(--ink);
+      font-size: 1.15em;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .blueprint-photo-band {
+      position: relative;
+      overflow: hidden;
+      min-height: 86px;
+      border-left: 5px solid var(--thu-purple);
+      background: #f4f8f1;
+    }
+
+    .blueprint-photo-band img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 48%;
+      filter: saturate(0.86) contrast(0.96);
+      opacity: 0.48;
+    }
+
+    .blueprint-photo-band img.blueprint-bus-photo {
+      inset: 10px 18px auto auto;
+      width: 170px;
+      height: 66px;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.92;
+      filter: saturate(0.94) contrast(1);
+      border: 3px solid rgba(255,255,255,0.92);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+
+    .blueprint-photo-band img.blueprint-small-photo {
+      inset: 10px 198px auto auto;
+      width: 170px;
+      height: 66px;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.92;
+      filter: saturate(0.94) contrast(1);
+      border: 3px solid rgba(255,255,255,0.92);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.18);
+      z-index: 2;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .blueprint-photo-band::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.82) 52%, rgba(255,255,255,0.55) 100%);
+    }
+
+    .blueprint-band-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 830px;
+      padding: 14px 20px;
+    }
+
+    .blueprint-band-copy b {
+      display: block;
+      color: var(--thu-purple);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .blueprint-band-copy span {
+      color: #000;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.32;
+    }
+
+    .blueprint-canvas {
+      display: grid;
+      grid-template-columns: 238px 1fr 246px;
+      gap: 18px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .blueprint-rail,
+    .blueprint-route,
+    .blueprint-outcomes {
+      min-width: 0;
+    }
+
+    .blueprint-rail h3,
+    .blueprint-route-title,
+    .blueprint-outcomes h3 {
+      margin: 0 0 9px;
+      color: var(--thu-purple);
+      font-weight: 700;
+      font-size: 14px;
+      border-bottom: 2px solid var(--thu-purple);
+      padding-bottom: 6px;
+    }
+
+    .blueprint-gap-list,
+    .blueprint-outcome-list {
+      display: grid;
+      grid-template-rows: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      height: calc(100% - 29px);
+    }
+
+    .blueprint-gap-item {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(94, 119, 114, 0.24);
+    }
+
+    .blueprint-gap-item i {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(94, 119, 114, 0.8);
+      color: #40504b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .blueprint-gap-item b,
+    .blueprint-outcome-item b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 12.8px;
+      line-height: 1.22;
+      margin-bottom: 2px;
+    }
+
+    .blueprint-gap-item span,
+    .blueprint-outcome-item span {
+      display: block;
+      color: #000;
+      font-size: 10.8px;
+      line-height: 1.24;
+    }
+
+    .blueprint-route {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #f7fbf4 0%, #ffffff 100%);
+      border-top: 1px solid rgba(43, 135, 43, 0.28);
+      border-bottom: 1px solid rgba(43, 135, 43, 0.28);
+      padding: 0 18px 2px;
+    }
+
+    .blueprint-route-list {
+      position: relative;
+      display: grid;
+      grid-template-rows: repeat(6, minmax(0, 1fr));
+      gap: 4px;
+      height: calc(100% - 29px);
+    }
+
+    .blueprint-route-list::before {
+      content: "";
+      position: absolute;
+      left: 29px;
+      top: 16px;
+      bottom: 16px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--thu-purple), var(--green));
+      opacity: 0.95;
+    }
+
+    .blueprint-step {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 0;
+      position: relative;
+    }
+
+    .blueprint-step-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--thu-purple);
+      color: var(--thu-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 1;
+      box-shadow: 0 0 0 5px #f7fbf4;
+    }
+
+    .blueprint-step-icon svg {
+      width: 27px;
+      height: 27px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .blueprint-step-copy {
+      background: #fff;
+      border-left: 4px solid var(--thu-purple);
+      padding: 6px 9px 6px 11px;
+      box-shadow: 0 1px 0 rgba(43, 135, 43, 0.15);
+    }
+
+    .blueprint-step-copy b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13.1px;
+      line-height: 1.22;
+      margin-bottom: 2px;
+    }
+
+    .blueprint-step-copy span {
+      display: block;
+      color: var(--muted);
+      font-size: 10.6px;
+      line-height: 1.2;
+    }
+
+    .blueprint-outcome-item {
+      padding: 7px 0 7px 12px;
+      border-left: 4px solid var(--thu-gold);
+      background: linear-gradient(90deg, rgba(154, 132, 79, 0.10), rgba(255,255,255,0));
+    }
+
+    .translation-rule {
+      margin-top: 0;
+      font-size: 15px;
+      max-width: 1080px;
+      background: transparent;
+      border-left: 0;
+    }
+
+    .status-list {
+      display: grid;
+      grid-template-columns: 170px 1fr 92px;
+      gap: 12px;
+      align-items: center;
+      margin: 15px 0;
+    }
+
+    .status-tag {
+      font-weight: 700;
+      color: var(--thu-purple);
+      text-align: right;
+    }
+
+    .diagnosis-note {
+      color: var(--ink);
+      font-size: 15.8px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 13px 0 0;
+      padding: 0 0 0 22px;
+      background: transparent;
+      border: 0;
+      position: relative;
+    }
+
+    .pain-card {
+      border-left: 4px solid var(--burgundy);
+      background: #fff;
+      padding: 12px 14px;
+      min-height: 84px;
+      margin-bottom: 10px;
+    }
+
+    .pain-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 16.6px;
+      margin-bottom: 6px;
+    }
+
+    .pain-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13.55px;
+      line-height: 1.32;
+    }
+
+    .pain-card em {
+      color: var(--burgundy);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .diagnosis-bridge {
+      margin-top: 13px;
+      border-top: 2px solid var(--thu-purple);
+      padding-top: 10px;
+    }
+
+    .diagnosis-bridge h3 {
+      margin: 0 0 8px;
+      color: var(--thu-purple);
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .bridge-action-row {
+      display: grid;
+      grid-template-columns: 108px 18px 1fr;
+      gap: 9px;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 13.25px;
+      line-height: 1.24;
+    }
+
+    .bridge-action-row:last-child {
+      border-bottom: 0;
+    }
+
+    .bridge-action-row b {
+      color: var(--thu-purple);
+      font-size: 13.35px;
+      line-height: 1.2;
+    }
+
+    .bridge-action-row i {
+      color: var(--thu-purple);
+      font-style: normal;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .system-map {
+      position: relative;
+      height: 455px;
+      margin-top: 8px;
+    }
+
+    .node {
+      position: absolute;
+      border: 1.5px solid var(--thu-purple);
+      background: #fff;
+      padding: 14px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--thu-purple);
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.25;
+    }
+
+    .node.gold { border-color: var(--thu-gold); color: #7b5a20; background: #fcfaf4; }
+    .node.green { border-color: var(--green); color: var(--green); background: #f5faf6; }
+    .node.red { border-color: var(--burgundy); color: var(--burgundy); background: #fbf7f5; }
+    .node.teal { border-color: var(--teal); color: var(--teal); background: #f5f8f7; }
+
+    .arrow {
+      position: absolute;
+      height: 4px;
+      background: var(--teal);
+    }
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -5px;
+      border-left: 12px solid var(--teal);
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+    }
+
+    .matrix {
+      width: 700px;
+      height: 392px;
+      border: 1px solid var(--line);
+      background: #fbfbfb;
+      position: relative;
+      margin-top: 8px;
+    }
+
+    .matrix::before, .matrix::after {
+      content: "";
+      position: absolute;
+      background: var(--line);
+    }
+    .matrix::before { left: 50%; top: 0; width: 1px; height: 100%; }
+    .matrix::after { left: 0; top: 50%; width: 100%; height: 1px; }
+
+    .quad-label {
+      position: absolute;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--thu-purple);
+    }
+
+    .dot {
+      position: absolute;
+      width: var(--s);
+      height: var(--s);
+      border-radius: 50%;
+      background: var(--c);
+      transform: translate(-50%, -50%);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    .dot-label {
+      position: absolute;
+      transform: translate(16px, -50%);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--c);
+      white-space: nowrap;
+    }
+
+    .priority-list .item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      border: 1px solid var(--line);
+      margin-bottom: 16px;
+      min-height: 54px;
+    }
+    .priority-list .num {
+      background: var(--thu-purple);
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .priority-list .txt { padding: 9px 12px; font-size: 13px; line-height: 1.4; }
+    .priority-list b { color: var(--thu-purple); }
+
+    .priority-map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 7px 12px;
+      height: 500px;
+      align-items: stretch;
+    }
+
+    .priority-decision-frame {
+      grid-row: 1;
+      grid-column: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .priority-decision-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .priority-map-caption {
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.35;
+      font-weight: 600;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .priority-map-caption b {
+      color: var(--thu-purple);
+      margin-right: 4px;
+    }
+
+    .gantt {
+      display: grid;
+      grid-template-columns: 150px repeat(10, 1fr);
+      grid-auto-rows: 52px;
+      margin-top: 18px;
+      border-left: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+    }
+    .gantt div {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4px;
+    }
+    .g-label { font-weight: 700; color: var(--ink); background: var(--soft-2); }
+    .g-year { color: var(--thu-purple); font-weight: 700; background: #fbf9fb; }
+    .phase { color: #fff; font-weight: 700; }
+    .p1 { background: var(--green); }
+    .p2 { background: var(--thu-purple); }
+    .p3 { background: var(--thu-gold); color: #fff; }
+    .p4 { background: var(--teal); }
+    .p5 { background: var(--burgundy); }
+
+    .roadmap-journal-layout {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .roadmap-journal-frame {
+      height: 462px;
+      border: 0;
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roadmap-journal-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .roadmap-journal-caption {
+      margin: 0;
+      color: #000;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .slide[data-page="9"],
+    .slide[data-page="9"] * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .slide[data-page="9"] .header h2 {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-size: 36px;
+      line-height: 1.12;
+    }
+
+    .slide[data-page="9"] .roadmap-journal-caption {
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-size: 14.5px;
+      line-height: 1.32;
+    }
+
+    .roadmap-claim {
+      margin-top: 3px;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px 38px;
+      margin-top: 14px;
+    }
+    .loop {
+      border: 1px solid var(--line);
+      border-left: 7px solid var(--thu-purple);
+      padding: 16px 20px;
+      height: 175px;
+      position: relative;
+      background: #fff;
+    }
+    .loop h4 { margin: 0 0 18px; color: var(--thu-purple); font-size: 16px; }
+    .loop-nodes {
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr;
+      gap: 8px;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .mini-node {
+      border: 1px solid var(--line);
+      background: var(--soft-2);
+      padding: 8px 6px;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .plus { color: var(--green); font-weight: 700; }
+    .minus { color: var(--burgundy); font-weight: 700; }
+
+    .risk {
+      width: 600px;
+      height: 380px;
+      border: 1px solid var(--line);
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(63,122,93,0.10) 0 50%, rgba(138,90,76,0.10) 50% 100%),
+        linear-gradient(0deg, rgba(154,132,79,0.08) 0 50%, rgba(47,93,74,0.08) 50% 100%);
+      margin-top: 18px;
+    }
+    .risk::before, .risk::after {
+      content: "";
+      position: absolute;
+      background: rgba(47,93,74,0.18);
+    }
+    .risk::before { left: 50%; top: 0; width: 1px; height: 100%; }
+    .risk::after { left: 0; top: 50%; width: 100%; height: 1px; }
+    .risk-point {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--thu-purple);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      transform: translate(-50%, -50%);
+    }
+
+    .bars-chart {
+      display: grid;
+      grid-template-columns: 78px repeat(4, 1fr);
+      gap: 10px;
+      align-items: end;
+      height: 310px;
+      border: 1px solid var(--line);
+      background: #fbfbfb;
+      padding: 28px 28px 34px;
+      margin-top: 12px;
+      position: relative;
+    }
+    .bar-group {
+      height: 230px;
+      display: grid;
+      grid-template-columns: repeat(3, 22px);
+      gap: 10px;
+      align-items: end;
+      justify-content: center;
+      position: relative;
+    }
+    .vbar {
+      height: var(--h);
+      background: var(--c);
+      min-height: 4px;
+      position: relative;
+    }
+    .vbar::before {
+      content: attr(data-v);
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--c);
+      font-weight: 700;
+    }
+    .year-label {
+      position: absolute;
+      bottom: -28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .lca-chain .step {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      margin: 12px 0;
+      text-align: center;
+      font-weight: 700;
+      background: #fff;
+      color: var(--ink);
+      position: relative;
+    }
+    .lca-chain .step::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      height: 100%;
+      background: var(--thu-gold);
+    }
+
+    .lca-method-page {
+      display: grid;
+      gap: 14px;
+    }
+
+    .lca-method-rule {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      font-size: 15.8px;
+      line-height: 1.38;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .lca-method-rule::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 4px;
+      background: var(--thu-purple);
+    }
+
+    .lca-method-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .lca-panel {
+      border: 3px dashed var(--dash-border);
+      background: var(--dash-bg);
+      padding: 14px 15px 13px;
+    }
+
+    .lca-panel .section-title {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .benefit-flow {
+      display: grid;
+      grid-template-columns: 1fr 34px 1fr 34px 1fr;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .benefit-flow div:not(.flow-arrow) {
+      min-height: 82px;
+      border-left: 4px solid var(--thu-purple);
+      background: #fff;
+      padding: 10px 10px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+    }
+
+    .benefit-flow b {
+      color: var(--thu-purple);
+      font-size: 14px;
+      line-height: 1.22;
+    }
+
+    .benefit-flow span {
+      color: var(--ink);
+      font-size: 11.5px;
+      line-height: 1.24;
+    }
+
+    .flow-arrow {
+      color: var(--thu-purple);
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .lca-bullets {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      font-size: 12.2px;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .lca-bullets li { margin-bottom: 6px; }
+    .lca-bullets b { color: var(--thu-purple); }
+
+    .env-result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .env-result-card {
+      background: #fff;
+      border-left: 4px solid var(--thu-purple);
+      padding: 9px 10px;
+      min-height: 68px;
+    }
+
+    .env-result-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .env-result-card span {
+      display: block;
+      color: var(--ink);
+      font-size: 10.7px;
+      line-height: 1.28;
+      font-weight: 600;
+    }
+
+    .lca-boundary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .lca-boundary-item {
+      background: #fff;
+      border-left: 4px solid var(--thu-gold);
+      padding: 9px 10px;
+      min-height: 76px;
+    }
+
+    .lca-boundary-item b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13.2px;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+
+    .lca-boundary-item span {
+      display: block;
+      color: var(--ink);
+      font-size: 11px;
+      line-height: 1.28;
+    }
+
+    .lca-definition-card {
+      background: #fff;
+      border-left: 4px solid var(--thu-purple);
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .lca-definition-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 14.2px;
+      margin-bottom: 5px;
+    }
+
+    .lca-definition-card span {
+      display: block;
+      color: var(--ink);
+      font-size: 11.8px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .lca-mini-diagram {
+      display: grid;
+      grid-template-columns: 1fr 22px 1fr 22px 1fr;
+      grid-template-rows: auto 18px auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .lca-stage {
+      background: #fff;
+      border: 2px solid rgba(36, 139, 68, 0.5);
+      min-height: 72px;
+      padding: 8px 9px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+    }
+
+    .lca-stage.use-phase {
+      border-color: var(--thu-purple);
+      background: #f5fff7;
+    }
+
+    .lca-stage i {
+      font-style: normal;
+      color: var(--thu-purple);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .lca-stage b {
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.15;
+    }
+
+    .lca-stage span {
+      color: var(--ink);
+      font-size: 10.8px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .lca-stage-arrow {
+      color: var(--thu-purple);
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .lca-stage-arrow.down {
+      grid-column: 5;
+      grid-row: 2;
+      transform: rotate(90deg);
+    }
+
+    .lca-scope-compare {
+      display: grid;
+      gap: 7px;
+    }
+
+    .lca-scope-line {
+      background: #fff;
+      border-left: 4px solid var(--thu-gold);
+      padding: 8px 10px;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.3;
+      font-weight: 600;
+    }
+
+    .lca-scope-line b {
+      color: var(--thu-purple);
+      margin-right: 6px;
+    }
+
+    .lca-data-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .lca-data-row div {
+      border: 3px dashed var(--dash-border);
+      background: #fff;
+      padding: 10px 12px;
+      min-height: 86px;
+    }
+
+    .lca-data-row b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .lca-data-row span {
+      display: block;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 60px;
+    }
+    .rec-card {
+      border: 1px solid var(--line);
+      min-height: 220px;
+      padding: 26px;
+      background: #fff;
+    }
+    .rec-card b {
+      color: var(--thu-purple);
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 42px;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+    .rec-card h3 {
+      color: var(--thu-purple);
+      margin: 0 0 18px;
+      font-size: 23px;
+      line-height: 1.2;
+    }
+    .rec-card p { color: var(--ink); font-weight: 700; line-height: 1.45; }
+
+    .recommendation-page {
+      display: grid;
+      gap: 12px;
+    }
+
+    .recommendation-thesis {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .recommendation-thesis::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 4px;
+      background: var(--thu-purple);
+    }
+
+    .rec-phase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .recommendation-page .rec-card {
+      min-height: 262px;
+      padding: 15px 15px 13px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 8px;
+    }
+
+    .rec-phase-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 7px;
+    }
+
+    .recommendation-page .rec-card b {
+      margin-bottom: 0;
+      font-size: 34px;
+    }
+
+    .rec-years {
+      color: var(--thu-purple);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: right;
+    }
+
+    .recommendation-page .rec-card h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.22;
+    }
+
+    .rec-actions {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      font-size: 11.6px;
+      line-height: 1.28;
+      font-weight: 650;
+    }
+
+    .rec-actions li { margin-bottom: 4px; }
+
+    .rec-gate {
+      border-top: 1px solid var(--line);
+      padding-top: 7px;
+      color: var(--ink);
+      font-size: 11.2px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .rec-gate b {
+      display: inline;
+      font-family: inherit;
+      font-size: 11.2px;
+      margin: 0 4px 0 0;
+      color: var(--thu-purple);
+    }
+
+    .rec-mechanism-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .rec-mechanism {
+      border: 3px dashed var(--dash-border);
+      background: var(--dash-bg);
+      padding: 10px 11px;
+      min-height: 104px;
+    }
+
+    .rec-mechanism h4 {
+      margin: 0 0 7px;
+      color: var(--thu-purple);
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .rec-mechanism p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 11.2px;
+      line-height: 1.34;
+      font-weight: 650;
+    }
+
+    .recommendation-claim {
+      margin: 0;
+      text-align: center;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .slide[data-page="13"] .recommendation-page {
+      display: grid;
+      gap: 13px;
+    }
+
+    .slide[data-page="13"] .recommendation-thesis {
+      margin: 0;
+      padding: 12px 16px 12px 18px;
+      border-left: 5px solid var(--thu-purple);
+      border-bottom: 1px solid rgba(43, 135, 43, 0.3);
+      background: linear-gradient(90deg, #f6fbf3 0%, #fff 100%);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.38;
+      font-weight: 800;
+    }
+
+    .slide[data-page="13"] .recommendation-thesis::before {
+      content: none;
+    }
+
+    .slide[data-page="13"] .rec-logic-flow {
+      display: grid;
+      grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .slide[data-page="13"] .rec-logic-node {
+      border: 2px solid rgba(43, 135, 43, 0.55);
+      background: #fff;
+      padding: 14px 14px 13px;
+      min-height: 136px;
+      display: grid;
+      align-content: start;
+    }
+
+    .slide[data-page="13"] .rec-logic-node .logic-kicker {
+      color: var(--thu-gold);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .slide[data-page="13"] .rec-logic-node h3 {
+      margin: 0 0 8px;
+      color: var(--thu-purple);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .slide[data-page="13"] .rec-logic-node p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 12.6px;
+      line-height: 1.34;
+      font-weight: 650;
+    }
+
+    .slide[data-page="13"] .rec-flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--thu-gold);
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .slide[data-page="13"] .rec-principle-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .slide[data-page="13"] .rec-principle {
+      border: 3px dashed var(--dash-border);
+      background: var(--dash-bg);
+      padding: 10px 10px 9px;
+      min-height: 150px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 5px;
+    }
+
+    .slide[data-page="13"] .rec-principle b {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--thu-purple);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .slide[data-page="13"] .rec-principle h4 {
+      margin: 0;
+      color: var(--thu-purple);
+      font-size: 14.2px;
+      line-height: 1.2;
+    }
+
+    .slide[data-page="13"] .rec-principle p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 10.4px;
+      line-height: 1.34;
+      font-weight: 650;
+    }
+
+    .slide[data-page="13"] .rec-industry-sketch {
+      display: grid;
+      grid-template-columns: 230px 58px 1fr;
+      gap: 13px;
+      align-items: stretch;
+      border-top: 2px solid rgba(43, 135, 43, 0.55);
+      border-bottom: 2px solid rgba(43, 135, 43, 0.55);
+      padding: 8px 0;
+      min-height: 88px;
+    }
+
+    .slide[data-page="13"] .rec-sketch-origin,
+    .slide[data-page="13"] .rec-sketch-target {
+      background: #fff;
+      border: 2px solid rgba(43, 135, 43, 0.42);
+      padding: 8px 10px;
+    }
+
+    .slide[data-page="13"] .rec-sketch-origin {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .slide[data-page="13"] .rec-sketch-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--thu-purple);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide[data-page="13"] .rec-sketch-icon svg {
+      width: 25px;
+      height: 25px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .slide[data-page="13"] .rec-sketch-origin b,
+    .slide[data-page="13"] .rec-sketch-target b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .slide[data-page="13"] .rec-sketch-origin span,
+    .slide[data-page="13"] .rec-sketch-target span {
+      display: block;
+      color: var(--ink);
+      font-size: 10px;
+      line-height: 1.25;
+      font-weight: 650;
+    }
+
+    .slide[data-page="13"] .rec-sketch-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--thu-gold);
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .slide[data-page="13"] .rec-capability-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .slide[data-page="13"] .rec-capability {
+      border-left: 3px solid var(--thu-purple);
+      background: #f8fbf4;
+      padding: 5px 6px;
+      min-height: 34px;
+    }
+
+    .slide[data-page="13"] .rec-capability b {
+      color: var(--thu-purple);
+      font-size: 10.4px;
+      line-height: 1.15;
+      margin: 0 0 3px;
+    }
+
+    .slide[data-page="13"] .rec-capability span {
+      font-size: 8.7px;
+      line-height: 1.2;
+    }
+
+    .slide[data-page="13"] .recommendation-claim {
+      border-top: 2px solid var(--thu-purple);
+      padding-top: 11px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.32;
+      font-weight: 800;
+    }
+
+    .xian-answer {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .evidence-panel {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 15px 18px;
+      min-height: 214px;
+    }
+
+    .evidence-panel h3 {
+      margin: 0 0 12px;
+      color: var(--thu-purple);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .growth-bars {
+      height: 128px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 18px;
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 0 18px;
+      margin-top: 4px;
+    }
+
+    .growth-layout {
+      display: grid;
+      grid-template-columns: 1fr 188px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .growth-bar {
+      width: 64px;
+      height: var(--h);
+      background: var(--green);
+      position: relative;
+      min-height: 12px;
+    }
+
+    .growth-bar:nth-child(2) { background: var(--teal); }
+    .growth-bar:nth-child(3) { background: var(--thu-purple); }
+
+    .growth-bar::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -23px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--thu-purple);
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .growth-bar::after {
+      content: attr(data-year);
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .evidence-note {
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .growth-summary {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      padding-top: 3px;
+    }
+
+    .summary-tile {
+      border: 1px solid var(--line);
+      background: #f7faf7;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .summary-tile b {
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 27px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .summary-tile span {
+      color: var(--muted);
+      font-size: 12.2px;
+      line-height: 1.3;
+    }
+
+    .policy-stack {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .policy-item {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      border: 1px solid var(--line);
+      min-height: 50px;
+      align-items: stretch;
+      background: var(--soft-2);
+    }
+
+    .policy-year {
+      background: var(--thu-purple);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .policy-text {
+      padding: 8px 12px;
+      font-size: 13.5px;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+
+    .mini-evidence-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .mini-evidence {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 13px 15px;
+      min-height: 136px;
+    }
+
+    .mini-evidence b {
+      color: var(--thu-purple);
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .mini-evidence .numline {
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .mini-evidence p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.8px;
+      line-height: 1.42;
+    }
+
+    .evidence-source-layout {
+      display: grid;
+      grid-template-columns: 1fr 304px;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .evidence-chain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .evidence-chain-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 15px 17px;
+      min-height: 184px;
+    }
+
+    .evidence-chain-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 17px;
+      margin-bottom: 9px;
+    }
+
+    .evidence-chain-card .metric {
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .evidence-chain-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .mini-bars {
+      height: 70px;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 14px 0 24px;
+    }
+
+    .mini-bars i {
+      display: block;
+      width: 34px;
+      height: var(--h);
+      background: var(--green);
+      position: relative;
+      font-style: normal;
+    }
+
+    .mini-bars i:nth-child(2) { background: var(--teal); }
+    .mini-bars i:nth-child(3) { background: var(--thu-purple); }
+
+    .mini-bars i::after {
+      content: attr(data-year);
+      position: absolute;
+      bottom: -17px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .mini-bars i::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--thu-purple);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .source-covers {
+      border: 1px solid var(--line);
+      background: #fbfbfb;
+      padding: 13px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .source-covers h3 {
+      grid-column: 1 / -1;
+      margin: 0 0 2px;
+      color: var(--thu-purple);
+      font-size: 17px;
+    }
+
+    .source-cover-card {
+      min-width: 0;
+    }
+
+    .source-cover-card img {
+      width: 100%;
+      height: 142px;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: block;
+    }
+
+    .source-cover-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.2;
+    }
+
+    .transfer-layout {
+      display: grid;
+      grid-template-columns: 1fr 244px;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .transfer-stack {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .transfer-row {
+      display: grid;
+      grid-template-columns: 0.86fr 28px 1.08fr;
+      gap: 12px;
+      align-items: stretch;
+      min-height: 94px;
+    }
+
+    .transfer-box {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px 14px;
+      line-height: 1.35;
+      font-size: 13px;
+    }
+
+    .transfer-box b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .transfer-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--thu-purple);
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .source-spine {
+      border: 1px solid var(--line);
+      background: #fbfbfb;
+      padding: 13px;
+    }
+
+    .source-spine h3 {
+      color: var(--thu-purple);
+      font-size: 16px;
+      margin: 0 0 12px;
+    }
+
+    .spine-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 9px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .spine-item img {
+      width: 42px;
+      height: 58px;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .spine-item span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .evidence-brief-layout {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .evidence-main-story {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .story-lead {
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--ink);
+      font-weight: 700;
+      padding: 0 0 0 22px;
+      background: transparent;
+      border: 0;
+      position: relative;
+    }
+
+    .growth-proof-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 16px 18px 14px;
+    }
+
+    .growth-proof-card h3 {
+      margin: 0 0 12px;
+      color: var(--thu-purple);
+      font-size: 18px;
+    }
+
+    .wide-bars {
+      height: 146px;
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 54px;
+      padding: 0 34px;
+      margin: 8px 0 12px;
+    }
+
+    .wide-bar {
+      width: 76px;
+      height: var(--h);
+      background: var(--green);
+      position: relative;
+    }
+
+    .wide-bar:nth-child(2) { background: var(--teal); }
+    .wide-bar:nth-child(3) { background: var(--thu-purple); }
+
+    .wide-bar::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--thu-purple);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .wide-bar::after {
+      content: attr(data-year);
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .stat-chip {
+      border-top: 3px solid var(--thu-purple);
+      background: #fbfbfb;
+      padding: 9px 10px;
+      min-height: 60px;
+    }
+
+    .stat-chip b {
+      display: block;
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-chip span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .clue-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .clue {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px 14px;
+      min-height: 88px;
+    }
+
+    .clue b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .clue span {
+      display: block;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    .proof-side {
+      border: 1px solid var(--line);
+      background: #fbfbfb;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .proof-side h3 {
+      margin: 0;
+      color: var(--thu-purple);
+      font-size: 17px;
+    }
+
+    .cover-feature {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .cover-feature img {
+      width: 92px;
+      height: 118px;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: block;
+    }
+
+    .cover-feature b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 14px;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .cover-feature span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .policy-proof-box {
+      border-left: 4px solid var(--thu-gold);
+      background: #fff;
+      padding: 12px 13px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .facility-donut-card {
+      border-left: 4px solid var(--thu-gold);
+      background: #fff;
+      padding: 11px 12px;
+    }
+
+    .facility-donut-card h4 {
+      margin: 0 0 10px;
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .donut-row {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .donut {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--green) 0 23.6%,
+        var(--teal) 23.6% 40.8%,
+        var(--thu-gold) 40.8% 59.3%,
+        var(--burgundy) 59.3% 74.1%,
+        #8e9a90 74.1% 100%
+      );
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .donut::after {
+      content: "454\A座";
+      white-space: pre;
+      position: absolute;
+      inset: 24px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--thu-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.05;
+    }
+
+    .donut-legend {
+      display: grid;
+      gap: 4px;
+      font-size: 10.5px;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+
+    .donut-legend span {
+      display: grid;
+      grid-template-columns: 9px 1fr;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .donut-legend i {
+      width: 9px;
+      height: 9px;
+      background: var(--c);
+      display: block;
+    }
+
+    .xian-now-panel {
+      gap: 8px;
+    }
+
+    .now-card,
+    .evidence-cover,
+    .pile-split-card,
+    .current-signal,
+    .source-mini {
+      background: #fff;
+      padding: 11px 12px;
+    }
+
+    .now-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    .now-card span,
+    .pile-split-card p,
+    .current-signal span,
+    .source-mini {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .pile-split-card h4 {
+      margin: 0 0 10px;
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .pile-split {
+      height: 20px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 8px;
+      background: #eef3ef;
+      border: 1px solid var(--line);
+    }
+
+    .pile-seg {
+      width: var(--w);
+      background: var(--c);
+    }
+
+    .pile-split-legend {
+      display: grid;
+      gap: 5px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+
+    .pile-split-legend span {
+      display: grid;
+      grid-template-columns: 9px 1fr;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .pile-split-legend i {
+      width: 9px;
+      height: 9px;
+      background: var(--c);
+      display: block;
+    }
+
+    .current-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .current-signal {
+      min-height: 72px;
+    }
+
+    .current-signal b {
+      display: block;
+      color: var(--thu-purple);
+      font-family: Georgia, serif;
+      font-size: 21px;
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+
+    .evidence-cover {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 10px;
+    }
+
+    .evidence-cover img {
+      width: 58px;
+      height: 76px;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid var(--line);
+      background: #fff;
+      display: block;
+    }
+
+    .evidence-cover b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .evidence-cover span {
+      display: block;
+      color: var(--muted);
+      font-size: 11.2px;
+      line-height: 1.3;
+    }
+
+    .xian-now-panel .now-card {
+      padding: 9px 11px;
+    }
+
+    .xian-now-panel .now-card b {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .xian-now-panel .now-card span,
+    .xian-now-panel .source-mini {
+      font-size: 11px;
+      line-height: 1.28;
+    }
+
+    .xian-now-panel .facility-donut-card {
+      padding: 8px 10px;
+    }
+
+    .xian-now-panel .facility-donut-card h4 {
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .xian-now-panel .donut-row {
+      grid-template-columns: 78px 1fr;
+      gap: 9px;
+    }
+
+    .xian-now-panel .donut {
+      width: 78px;
+      height: 78px;
+    }
+
+    .xian-now-panel .donut::after {
+      inset: 18px;
+      font-size: 15px;
+    }
+
+    .xian-now-panel .donut-legend {
+      gap: 2px;
+      font-size: 9.3px;
+      line-height: 1.15;
+    }
+
+    .xian-now-panel .current-grid {
+      gap: 7px;
+    }
+
+    .xian-now-panel .current-signal {
+      min-height: 58px;
+      padding: 8px 9px;
+    }
+
+    .xian-now-panel .current-signal b {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .xian-now-panel .current-signal span {
+      font-size: 10.6px;
+      line-height: 1.24;
+    }
+
+    .xian-logic-layout {
+      display: grid;
+      gap: 13px;
+    }
+
+    .xian-data-page {
+      display: grid;
+      gap: 10px;
+      min-height: 566px;
+      grid-template-rows: auto 1fr;
+    }
+
+    .xian-data-page .story-lead {
+      font-size: 17.2px;
+      line-height: 1.32;
+      padding-left: 18px;
+    }
+
+    .xian-data-grid {
+      display: grid;
+      grid-template-columns: 0.69fr 0.31fr;
+      gap: 24px;
+      align-items: stretch;
+      min-height: 500px;
+    }
+
+    .xian-left-stack {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) 142px;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .xian-support-row {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .industry-map-card {
+      padding: 9px 11px 8px;
+    }
+
+    .industry-map-card h4 {
+      margin: 0 0 6px;
+      color: var(--thu-purple);
+      font-size: 12.5px;
+      line-height: 1.2;
+    }
+
+    .industry-map-card img {
+      width: 100%;
+      height: 286px;
+      object-fit: contain;
+      object-position: center;
+      background: #fff;
+      display: block;
+    }
+
+    .industry-map-card span {
+      display: block;
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: 13.2px;
+      line-height: 1.36;
+      font-weight: 600;
+    }
+
+    .xian-support-side {
+      display: grid;
+      gap: 10px;
+      grid-template-rows: 1fr 1fr;
+      align-content: stretch;
+      min-width: 0;
+    }
+
+    .xian-evidence-row {
+      display: grid;
+      grid-template-columns: 1fr 1.16fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .xian-evidence-row .evidence-cover,
+    .xian-evidence-row .facility-donut-card {
+      min-height: 100px;
+    }
+
+    .xian-evidence-row .facility-donut-card {
+      padding: 9px 11px;
+    }
+
+    .xian-evidence-row .facility-donut-card h4 {
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+
+    .xian-evidence-row .donut-row {
+      grid-template-columns: 80px 1fr;
+      gap: 9px;
+    }
+
+    .xian-evidence-row .donut {
+      width: 80px;
+      height: 80px;
+    }
+
+    .xian-evidence-row .donut::after {
+      inset: 18px;
+      font-size: 15px;
+    }
+
+    .xian-evidence-row .donut-legend {
+      gap: 2px;
+      font-size: 9.6px;
+      line-height: 1.16;
+    }
+
+    .xian-support-side .evidence-cover {
+      grid-template-columns: 100px 1fr;
+      min-height: 0;
+      padding: 9px 11px;
+      align-items: center;
+    }
+
+    .xian-support-side .evidence-cover img {
+      width: 100px;
+      height: 132px;
+    }
+
+    .xian-support-side .evidence-cover b {
+      font-size: 12.8px;
+      margin-bottom: 5px;
+    }
+
+    .xian-support-side .evidence-cover span {
+      font-size: 11.5px;
+      line-height: 1.38;
+    }
+
+    .xian-support-side .facility-donut-card {
+      min-height: 0;
+      padding: 9px 11px 10px;
+      align-self: stretch;
+    }
+
+    .xian-support-side .facility-donut-card h4 {
+      font-size: 11.5px;
+      margin-bottom: 7px;
+    }
+
+    .xian-support-side .donut-row {
+      grid-template-columns: 126px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .xian-support-side .donut {
+      width: 126px;
+      height: 126px;
+    }
+
+    .xian-support-side .donut::after {
+      inset: 29px;
+      font-size: 20px;
+    }
+
+    .xian-support-side .donut-legend {
+      gap: 4px;
+      font-size: 12.2px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #172117;
+    }
+
+    .xian-support-side .donut-legend span {
+      grid-template-columns: 10px 1fr;
+      gap: 6px;
+    }
+
+    .xian-support-side .donut-legend i {
+      width: 10px;
+      height: 10px;
+    }
+
+    .xian-data-grid .growth-proof-card {
+      min-height: 142px;
+      padding: 8px 13px 7px;
+    }
+
+    .xian-data-grid .growth-proof-card h3 {
+      font-size: 13.6px;
+      margin-bottom: 4px;
+    }
+
+    .xian-data-grid .growth-proof-body {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .xian-data-grid .growth-proof-body.chart-embed-body {
+      display: block;
+    }
+
+    .charging-growth-figure {
+      width: 100%;
+      height: 104px;
+      margin-bottom: 5px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .bar-chart {
+      display: grid;
+      grid-template-rows: 14px 88px 13px;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .bar-chart-title {
+      color: var(--thu-purple);
+      font-size: 10.5px;
+      line-height: 1;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .bar-chart-plot {
+      position: relative;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      min-height: 0;
+    }
+
+    .y-axis-label {
+      color: #000;
+      font-size: 9px;
+      line-height: 1.05;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      align-self: center;
+      justify-self: center;
+      white-space: nowrap;
+    }
+
+    .xian-data-grid .wide-bars {
+      height: 78px;
+      gap: 52px;
+      margin: 0;
+      padding: 0 28px;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+      align-self: end;
+    }
+
+    .xian-data-grid .wide-bar {
+      width: 62px;
+    }
+
+    .xian-data-grid .wide-bar:nth-child(3) {
+      height: var(--h) !important;
+    }
+
+    .xian-data-grid .wide-bar::before {
+      top: -17px;
+      font-size: 10.8px;
+    }
+
+    .xian-data-grid .wide-bar::after {
+      bottom: -15px;
+      font-size: 9.8px;
+    }
+
+    .x-axis-label {
+      color: #000;
+      font-size: 9.5px;
+      line-height: 1;
+      font-weight: 700;
+      text-align: center;
+      padding-left: 34px;
+    }
+
+    .xian-data-grid .stat-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 5px;
+      margin-top: 0;
+    }
+
+    .xian-data-grid .stat-chip {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 9px;
+      align-items: center;
+      border-top: 0;
+      border-left: 3px solid var(--thu-purple);
+      padding: 4px 7px;
+      min-height: 0;
+    }
+
+    .xian-data-grid .stat-chip b {
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+
+    .xian-data-grid .stat-chip span {
+      font-size: 10px;
+      line-height: 1.18;
+    }
+
+    .metric-prose-panel {
+      padding: 4px 0 0;
+      border-top: 2px solid var(--thu-purple);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .metric-prose-panel h3 {
+      margin: 0 0 8px;
+      color: var(--thu-purple);
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .metric-list {
+      display: grid;
+      grid-template-rows: repeat(5, minmax(0, 1fr));
+      min-height: 0;
+    }
+
+    .metric-line {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 7px 0 7px 21px;
+      margin: 0;
+      border-bottom: 1px solid rgba(24, 130, 43, 0.18);
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.36;
+    }
+
+    .metric-line:last-child {
+      border-bottom: 0;
+    }
+
+    .metric-line::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink);
+      font-size: 1.15em;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .metric-line .metric {
+      color: var(--thu-purple);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 1;
+      margin-right: 5px;
+      white-space: nowrap;
+    }
+
+    .metric-line .metric.word {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+    }
+
+    .slide[data-page="3"],
+    .slide[data-page="3"] * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .slide[data-page="3"] .donut::after {
+      content: "454\Astations";
+      font-family: Arial, Helvetica, sans-serif !important;
+      font-size: 17px;
+    }
+
+    .xian-source-row {
+      display: grid;
+      grid-template-columns: 1.02fr 1.05fr 1.08fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .xian-source-row .evidence-cover,
+    .xian-source-row .facility-donut-card,
+    .xian-source-row .now-card {
+      min-height: 96px;
+    }
+
+    .xian-source-row .facility-donut-card {
+      padding: 9px 11px;
+    }
+
+    .xian-source-row .facility-donut-card h4 {
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+
+    .xian-source-row .donut-row {
+      grid-template-columns: 80px 1fr;
+      gap: 9px;
+    }
+
+    .xian-source-row .donut {
+      width: 80px;
+      height: 80px;
+    }
+
+    .xian-source-row .donut::after {
+      inset: 18px;
+      font-size: 15px;
+    }
+
+    .xian-source-row .donut-legend {
+      gap: 2px;
+      font-size: 9.6px;
+      line-height: 1.16;
+    }
+
+    .xian-source-row .now-card {
+      padding: 10px 12px;
+    }
+
+    .xian-source-row .now-card b {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .xian-source-row .now-card span {
+      font-size: 11px;
+      line-height: 1.28;
+    }
+
+    .xian-main-grid {
+      display: grid;
+      grid-template-columns: 0.68fr 0.32fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .xian-main-grid .growth-proof-card {
+      min-height: 242px;
+    }
+
+    .xian-main-grid .wide-bars {
+      height: 124px;
+      margin-bottom: 10px;
+    }
+
+    .xian-main-grid .wide-bar:nth-child(3) {
+      height: 124px !important;
+    }
+
+    .xian-results-grid {
+      align-content: stretch;
+    }
+
+    .xian-results-grid .current-signal {
+      min-height: 86px;
+      padding: 10px 11px;
+    }
+
+    .xian-logic-layout .clue {
+      min-height: 72px;
+      padding: 9px 12px;
+    }
+
+    .xian-logic-layout .clue b {
+      margin-bottom: 5px;
+    }
+
+    .xian-logic-layout .clue span {
+      font-size: 11.6px;
+      line-height: 1.28;
+    }
+
+    .mechanism-board {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px 22px;
+    }
+
+    .bridge-thesis {
+      grid-column: 1 / -1;
+      background: transparent;
+      padding: 0 0 0 22px;
+      font-size: 17px;
+      line-height: 1.38;
+      font-weight: 700;
+      border: 0;
+      position: relative;
+    }
+
+    .mechanism-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 15px 18px;
+      min-height: 140px;
+    }
+
+    .mechanism-card .tag {
+      display: inline-block;
+      color: #fff;
+      background: var(--thu-purple);
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 11px;
+    }
+
+    .mechanism-card h3 {
+      margin: 0 0 9px;
+      color: var(--thu-purple);
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .mechanism-card p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .mechanism-card .signal {
+      margin-top: 12px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .xian-flow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .xian-flow .bridge-thesis {
+      font-size: 19.5px;
+      line-height: 1.34;
+    }
+
+    .xian-flow-main {
+      display: grid;
+      grid-template-columns: 315px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 1fr 42px 1fr 42px 1fr;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .flow-node,
+    .flow-outcome {
+      background: #fff;
+      padding: 13px 14px;
+      min-height: 154px;
+    }
+
+    .flow-node .tag,
+    .flow-outcome .tag {
+      display: inline-block;
+      color: #fff;
+      background: var(--thu-purple);
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .flow-node h3,
+    .flow-outcome h3 {
+      margin: 0 0 8px;
+      color: var(--thu-purple);
+      font-size: 17px;
+      line-height: 1.22;
+    }
+
+    .flow-node p,
+    .flow-outcome p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 12.8px;
+      line-height: 1.38;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--thu-gold);
+      font-size: 31px;
+      font-family: Georgia, serif;
+      font-weight: 700;
+    }
+
+    .actor-kpi-chain {
+      display: grid;
+      grid-template-columns: 150px repeat(5, 1fr);
+      gap: 9px;
+      align-items: stretch;
+    }
+
+    .actor-kpi-chain > b,
+    .actor-kpi-chain > span {
+      background: #fff;
+      padding: 12px 12px;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      line-height: 1.22;
+    }
+
+    .actor-kpi-chain > b {
+      color: var(--thu-purple);
+      font-size: 15px;
+      border-left: 5px solid var(--thu-gold);
+      position: relative;
+    }
+
+    .actor-kpi-chain > span {
+      color: var(--muted);
+      font-size: 12.4px;
+      position: relative;
+    }
+
+    .actor-kpi-chain .actor-icon {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      color: var(--thu-purple);
+      background: rgba(47, 180, 75, 0.10);
+      border: 1px solid rgba(43, 135, 43, 0.32);
+      padding: 4px;
+    }
+
+    .actor-kpi-chain b .actor-icon {
+      color: var(--thu-gold);
+      background: rgba(154, 132, 79, 0.12);
+      border-color: rgba(154, 132, 79, 0.42);
+    }
+
+    .actor-kpi-chain .actor-copy {
+      display: block;
+      min-width: 0;
+    }
+
+    .actor-kpi-chain .actor-copy strong {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 12.8px;
+      line-height: 1.15;
+      margin-bottom: 2px;
+    }
+
+    .actor-kpi-chain .actor-copy em {
+      display: block;
+      color: var(--muted);
+      font-style: normal;
+      font-size: 10.8px;
+      line-height: 1.16;
+    }
+
+    .actor-kpi-chain > span::after {
+      content: "→";
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--thu-gold);
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .actor-kpi-chain > span:last-child::after {
+      content: "";
+    }
+
+    .xian-flow-main .actor-kpi-chain {
+      grid-template-columns: 1fr;
+      gap: 7px;
+      align-items: stretch;
+    }
+
+    .xian-flow-main .actor-kpi-chain > b,
+    .xian-flow-main .actor-kpi-chain > span {
+      min-height: 70px;
+      padding: 9px 12px;
+      gap: 10px;
+    }
+
+    .xian-flow-main .actor-kpi-chain > b {
+      min-height: 73px;
+      font-size: 16px;
+    }
+
+    .xian-flow-main .actor-kpi-chain .actor-icon {
+      width: 34px;
+      height: 34px;
+      flex-basis: 34px;
+      padding: 5px;
+    }
+
+    .xian-flow-main .actor-kpi-chain .actor-copy strong {
+      font-size: 15px;
+      line-height: 1.12;
+      margin-bottom: 3px;
+    }
+
+    .xian-flow-main .actor-kpi-chain .actor-copy em {
+      font-size: 12.3px;
+      line-height: 1.14;
+    }
+
+    .xian-flow-main .actor-kpi-chain > span::after {
+      content: "↓";
+      right: auto;
+      left: 50%;
+      top: auto;
+      bottom: -11px;
+      transform: translateX(-50%);
+      color: var(--thu-gold);
+      font-size: 15px;
+    }
+
+    .xian-flow-main .actor-kpi-chain > span:last-child::after {
+      content: "";
+    }
+
+    .xian-flow-main .actor-kpi-chain > b::after {
+      content: "↓";
+      position: absolute;
+      left: 50%;
+      bottom: -11px;
+      transform: translateX(-50%);
+      color: var(--thu-gold);
+      font-weight: 700;
+      z-index: 2;
+      font-size: 15px;
+    }
+
+    .flow-detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .flow-outcome {
+      min-height: 128px;
+    }
+
+    .flow-outcome .tag {
+      background: var(--green);
+    }
+
+    .flow-outcome .signal {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.3;
+    }
+
+    .xian-flow .flow-row {
+      grid-template-columns: 1fr 44px 1fr 44px 1fr;
+      gap: 12px;
+    }
+
+    .xian-flow .flow-node {
+      min-height: 270px;
+      padding: 18px 18px 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .xian-flow .flow-node .tag {
+      padding: 6px 12px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .xian-flow .flow-node h3 {
+      font-size: 22.2px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .xian-flow .flow-node p {
+      font-size: 13.5px;
+      line-height: 1.38;
+      margin-bottom: 9px;
+    }
+
+    .xian-flow .step-visual {
+      width: 100%;
+      height: 116px;
+      margin-top: auto;
+      object-fit: cover;
+      object-position: center;
+      border: 1px solid rgba(43, 135, 43, 0.42);
+      background: #fff;
+      filter: saturate(0.94) contrast(1.04);
+    }
+
+    .xian-flow .step-visual.policy {
+      object-fit: cover;
+      object-position: center 38%;
+    }
+
+    .xian-flow .flow-arrow {
+      font-size: 42px;
+    }
+
+    .xian-flow .flow-detail-row {
+      grid-template-columns: 1fr 1fr;
+      justify-content: stretch;
+      gap: 14px;
+      align-items: stretch;
+      margin-top: 8px;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome {
+      min-height: 183px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:first-child {
+      position: relative;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:last-child {
+      position: relative;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:first-child p {
+      max-width: 160px;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:last-child p {
+      max-width: 200px;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome .tag {
+      padding: 5px 9px;
+      font-size: 11.4px;
+      margin-bottom: 8px;
+      width: fit-content;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome h3 {
+      font-size: 17px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome p {
+      font-size: 12.1px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome .signal {
+      margin-top: auto;
+      padding-top: 5px;
+      font-size: 10.8px;
+      line-height: 1.18;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:first-child .signal {
+      max-width: 150px;
+      font-size: 10.4px;
+    }
+
+    .payback-mini {
+      height: 74px;
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      margin: 18px 0 4px;
+      padding: 0 14px 22px;
+      border-bottom: 1px solid var(--line);
+      max-width: 330px;
+    }
+
+    .payback-mini i {
+      width: 34px;
+      height: var(--h);
+      background: var(--green);
+      display: block;
+      position: relative;
+      font-style: normal;
+    }
+
+    .payback-mini i:nth-child(2) { background: var(--teal); }
+    .payback-mini i:nth-child(3) { background: var(--thu-gold); }
+    .payback-mini i:nth-child(4) { background: var(--burgundy); }
+
+    .payback-mini i::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--thu-purple);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .payback-mini i::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -17px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .xian-flow .payback-mini {
+      height: 56px;
+      max-width: 300px;
+      gap: 22px;
+      margin: 0 24px 3px auto;
+      padding: 0 12px 14px;
+      position: relative;
+    }
+
+    .xian-flow .flow-detail-row .flow-outcome:first-child .payback-mini {
+      position: absolute;
+      right: 4px;
+      top: 92px;
+      margin: 0;
+    }
+
+    .xian-flow .payback-mini i {
+      width: 28px;
+      height: calc(var(--h) * 0.82);
+    }
+
+    .xian-flow .payback-mini i::before {
+      top: -14px;
+      font-size: 9.4px;
+    }
+
+    .xian-flow .payback-mini i::after {
+      bottom: -12px;
+      font-size: 8.6px;
+    }
+
+    .xian-flow .payback-mini::after {
+      content: "Higher utilisation, shorter payback";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -25px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .slide[data-page="4"] .xian-flow {
+      gap: 8px;
+    }
+
+    .slide[data-page="4"] .xian-flow .bridge-thesis {
+      font-size: 15.8px;
+      line-height: 1.28;
+    }
+
+    .slide[data-page="4"] .xian-flow-main {
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain {
+      gap: 6px;
+      background: #fff !important;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain > b,
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain > span {
+      background: #fff !important;
+      min-height: 77px;
+      padding: 7px 10px;
+      gap: 8px;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain .actor-copy {
+      text-align: center;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain > b {
+      min-height: 80px;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain .actor-icon {
+      width: 30px;
+      height: 30px;
+      flex-basis: 30px;
+      padding: 4px;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain .actor-copy strong {
+      font-size: 13.2px;
+      line-height: 1.08;
+      margin-bottom: 2px;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain .actor-copy em {
+      font-size: 10.6px;
+      line-height: 1.14;
+    }
+
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain > b::after,
+    .slide[data-page="4"] .xian-flow-main .actor-kpi-chain > span::after {
+      bottom: -18px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+      -webkit-text-stroke: 0.8px currentColor;
+      text-shadow: 0 0 0 currentColor;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-row {
+      gap: 10px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-node {
+      min-height: 282px;
+      padding: 16px 15px 14px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-node .tag {
+      padding: 5px 10px;
+      font-size: 11.6px;
+      margin-bottom: 9px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-node h3 {
+      font-size: 21px;
+      line-height: 1.14;
+      margin-bottom: 9px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-node p {
+      font-size: 12.3px;
+      line-height: 1.33;
+      margin-bottom: 8px;
+    }
+
+    .slide[data-page="4"] .xian-flow .step-visual {
+      height: 112px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-arrow {
+      font-size: 34px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row {
+      margin-top: 7px;
+      gap: 12px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome {
+      min-height: 220px;
+      padding: 12px 14px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome .tag {
+      padding: 4px 8px;
+      font-size: 10.8px;
+      margin-bottom: 7px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome h3 {
+      font-size: 16.7px;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome p {
+      font-size: 11.3px;
+      line-height: 1.22;
+      margin-bottom: 4px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome .signal {
+      padding-top: 5px;
+      font-size: 10.2px;
+      line-height: 1.16;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome:first-child .signal {
+      max-width: 165px;
+      font-size: 9.8px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome:first-child p {
+      max-width: 160px;
+    }
+
+    .slide[data-page="4"] .xian-flow .payback-mini {
+      gap: 22px;
+      max-width: 292px;
+      height: 70px;
+      padding: 0 10px 16px;
+    }
+
+    .slide[data-page="4"] .xian-flow .flow-detail-row .flow-outcome:first-child .payback-mini {
+      top: 96px;
+      right: 2px;
+    }
+
+    .slide[data-page="4"] .xian-flow .payback-mini i {
+      width: 27px;
+      height: calc(var(--h) * 0.9);
+    }
+
+    .slide[data-page="4"] .xian-flow .payback-mini i::before {
+      top: -14px;
+      font-size: 8.8px;
+    }
+
+    .slide[data-page="4"] .xian-flow .payback-mini i::after {
+      bottom: -13px;
+      font-size: 8.1px;
+    }
+
+    .slide[data-page="4"] .xian-flow .payback-mini::after {
+      bottom: -24px;
+      font-size: 8.4px;
+    }
+
+    .slide[data-page="4"] .feedback-loop-mini {
+      right: 10px;
+      top: 68px;
+      transform: scale(1.04);
+      transform-origin: top right;
+    }
+
+    .feedback-loop-mini {
+      position: absolute;
+      right: 11px;
+      top: 58px;
+      width: 148px;
+      height: 86px;
+      color: var(--thu-purple);
+    }
+
+    .feedback-loop-mini .loop-core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px;
+      height: 27px;
+      border: 2px solid var(--green);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .feedback-loop-mini .loop-node {
+      position: absolute;
+      min-width: 38px;
+      padding: 3px 5px;
+      border: 1.6px solid rgba(43, 135, 43, 0.75);
+      background: rgba(47, 180, 75, 0.08);
+      color: var(--ink);
+      font-size: 9.2px;
+      font-weight: 800;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .feedback-loop-mini .n-monitor { left: 54px; top: 0; }
+    .feedback-loop-mini .n-detect { right: 0; top: 34px; }
+    .feedback-loop-mini .n-adjust { left: 50px; bottom: 0; }
+    .feedback-loop-mini .n-layout { left: 0; top: 34px; }
+
+    .feedback-loop-mini .loop-arrow {
+      position: absolute;
+      color: var(--thu-gold);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .feedback-loop-mini .a1 { left: 101px; top: 18px; transform: rotate(40deg); }
+    .feedback-loop-mini .a2 { right: 31px; top: 62px; transform: rotate(140deg); }
+    .feedback-loop-mini .a3 { left: 31px; top: 61px; transform: rotate(220deg); }
+    .feedback-loop-mini .a4 { left: 31px; top: 18px; transform: rotate(320deg); }
+
+    .risk-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .risk-kpi-row div {
+      border: 3px dashed var(--dash-border);
+      border-radius: 8px;
+      background: var(--dash-bg);
+      padding: 10px 11px;
+      min-height: 72px;
+    }
+
+    .risk-kpi-row b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .risk-kpi-row span {
+      display: block;
+      color: var(--muted);
+      font-size: 10.8px;
+      line-height: 1.28;
+    }
+
+    .kpi-gate-page {
+      display: grid;
+      gap: 13px;
+    }
+
+    .kpi-rule {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .kpi-rule::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 4px;
+      background: var(--thu-purple);
+    }
+
+    .kpi-gate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .kpi-gate-card {
+      border: 3px dashed var(--dash-border);
+      background: var(--dash-bg);
+      padding: 13px 14px 12px;
+      min-height: 258px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 9px;
+    }
+
+    .kpi-gate-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 7px;
+    }
+
+    .kpi-year {
+      color: var(--thu-purple);
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: 31px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .kpi-gate-tag {
+      background: var(--thu-purple);
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .kpi-gate-card h3 {
+      margin: 0;
+      color: var(--thu-purple);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .kpi-checks {
+      display: grid;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .kpi-checks li {
+      border-left: 3px solid var(--thu-purple);
+      padding-left: 8px;
+      color: var(--ink);
+      font-size: 12.7px;
+      line-height: 1.3;
+    }
+
+    .kpi-checks b {
+      color: var(--thu-purple);
+      margin-right: 4px;
+    }
+
+    .kpi-actors {
+      border-top: 1px solid var(--line);
+      padding-top: 7px;
+      color: var(--ink);
+      font-size: 11.5px;
+      line-height: 1.3;
+    }
+
+    .kpi-risk-band {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .risk-band-title {
+      border-left: 4px solid var(--thu-purple);
+      padding: 9px 0 0 11px;
+      color: var(--thu-purple);
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.22;
+    }
+
+    .risk-band-title span {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink);
+      font-size: 11.5px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .kpi-gate-page .risk-kpi-row {
+      margin-top: 0;
+      gap: 8px;
+    }
+
+    .kpi-gate-page .risk-kpi-row div {
+      min-height: 66px;
+      padding: 8px 9px;
+      border-radius: 0;
+    }
+
+    .kpi-gate-page .risk-kpi-row b {
+      font-size: 12.2px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-gate-page .risk-kpi-row span {
+      font-size: 9.9px;
+      line-height: 1.2;
+    }
+
+    .kpi-bottom-claim {
+      margin: 0;
+      text-align: center;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .kpi-visual-checks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .kpi-visual-card {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 12px;
+      align-items: center;
+      border: 3px dashed var(--dash-border);
+      background: var(--dash-bg);
+      padding: 9px 10px;
+      min-height: 116px;
+    }
+
+    .kpi-visual-card img {
+      width: 118px;
+      height: 84px;
+      object-fit: cover;
+      display: block;
+      background: #fff;
+    }
+
+    .kpi-visual-card b {
+      display: block;
+      color: var(--thu-purple);
+      font-size: 13.6px;
+      line-height: 1.22;
+      margin-bottom: 5px;
+    }
+
+    .kpi-visual-card span {
+      display: block;
+      color: var(--ink);
+      font-size: 11.4px;
+      line-height: 1.28;
+      font-weight: 600;
+    }
+
+    .slide[data-page="11"],
+    .slide[data-page="11"] * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .slide[data-page="11"] .header h2 {
+      font-size: 35px;
+      line-height: 1.12;
+    }
+
+    .slide[data-page="11"] .kpi-gate-card h3 {
+      font-size: 16.6px;
+      line-height: 1.22;
+    }
+
+    .slide[data-page="11"] .kpi-checks {
+      gap: 6px;
+    }
+
+    .slide[data-page="11"] .kpi-checks li {
+      font-size: 11.2px;
+      line-height: 1.25;
+    }
+
+    .slide[data-page="11"] .kpi-actors {
+      font-size: 10.4px;
+      line-height: 1.22;
+    }
+
+    .slide[data-page="11"] .kpi-risk-band,
+    .slide[data-page="11"] .kpi-risk-band .risk-kpi-row div {
+      background: #ffffff;
+    }
+
+    .slide[data-page="11"] .kpi-visual-card b {
+      font-size: 12.8px;
+    }
+
+    .slide[data-page="11"] .kpi-visual-card span {
+      font-size: 10.6px;
+      line-height: 1.24;
+    }
+
+    .slide[data-page="12"],
+    .slide[data-page="12"] * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .slide[data-page="12"] .header h2 {
+      font-size: 32.5px;
+      line-height: 1.12;
+    }
+
+    .slide[data-page="12"] .header {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+    }
+
+    .slide[data-page="12"] .lca-method-page {
+      gap: 11px;
+    }
+
+    .slide[data-page="12"] .lca-method-rule {
+      font-size: 13.4px;
+      line-height: 1.32;
+    }
+
+    .slide[data-page="12"] .lca-method-grid {
+      gap: 12px;
+      grid-template-columns: 1.02fr 0.98fr;
+      min-height: 446px;
+    }
+
+    .slide[data-page="12"] .lca-panel {
+      padding: 12px 13px 11px;
+    }
+
+    .slide[data-page="12"] .lca-panel .section-title {
+      font-size: 16.4px;
+      line-height: 1.22;
+      margin-bottom: 10px;
+    }
+
+    .slide[data-page="12"] .benefit-flow b,
+    .slide[data-page="12"] .lca-definition-card b,
+    .slide[data-page="12"] .lca-data-row b {
+      font-size: 12.8px;
+    }
+
+    .slide[data-page="12"] .benefit-flow span,
+    .slide[data-page="12"] .lca-definition-card span,
+    .slide[data-page="12"] .lca-data-row span {
+      font-size: 10.1px;
+      line-height: 1.23;
+    }
+
+    .slide[data-page="12"] .benefit-flow {
+      grid-template-columns: 1fr 24px 1fr 24px 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .slide[data-page="12"] .benefit-flow div:not(.flow-arrow) {
+      min-height: 70px;
+      padding: 8px 9px;
+    }
+
+    .slide[data-page="12"] .flow-arrow {
+      font-size: 20px;
+    }
+
+    .slide[data-page="12"] .lca-bullets {
+      font-size: 10.8px;
+      line-height: 1.32;
+    }
+
+    .slide[data-page="12"] .lca-bullets li {
+      margin-bottom: 4px;
+    }
+
+    .slide[data-page="12"] .env-result-grid {
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .slide[data-page="12"] .env-result-card {
+      min-height: 66px;
+      padding: 8px 9px;
+    }
+
+    .slide[data-page="12"] .env-result-card b {
+      font-size: 12.2px;
+      margin-bottom: 4px;
+    }
+
+    .slide[data-page="12"] .env-result-card span {
+      font-size: 9.8px;
+      line-height: 1.22;
+    }
+
+    .slide[data-page="12"] .lca-definition-card {
+      padding: 9px 10px;
+      margin-bottom: 9px;
+    }
+
+    .slide[data-page="12"] .lca-mini-diagram {
+      grid-template-columns: 1fr 18px 1fr 18px 1fr;
+      grid-template-rows: auto 14px auto;
+      gap: 7px;
+      margin-bottom: 9px;
+    }
+
+    .slide[data-page="12"] .lca-stage {
+      min-height: 65px;
+      padding: 7px 8px;
+      gap: 3px;
+    }
+
+    .slide[data-page="12"] .lca-stage i {
+      font-size: 9px;
+    }
+
+    .slide[data-page="12"] .lca-stage b {
+      font-size: 12px;
+    }
+
+    .slide[data-page="12"] .lca-stage span {
+      font-size: 9.5px;
+      line-height: 1.18;
+    }
+
+    .slide[data-page="12"] .lca-stage-arrow {
+      font-size: 18px;
+    }
+
+    .slide[data-page="12"] .lca-scope-compare {
+      gap: 7px;
+    }
+
+    .slide[data-page="12"] .lca-scope-line {
+      padding: 8px 9px;
+      font-size: 10.3px;
+      line-height: 1.24;
+    }
+
+    .slide[data-page="12"] .lca-data-row {
+      gap: 9px;
+    }
+
+    .slide[data-page="12"] .lca-data-row div {
+      min-height: 60px;
+      padding: 8px 10px;
+      border-width: 2.4px;
+    }
+
+    .slide[data-page="12"] .lca-data-row b {
+      margin-bottom: 3px;
+    }
+
+    .evidence-panel,
+    .summary-tile,
+    .policy-item,
+    .limit-box,
+    .bridge-card,
+    .pain-card,
+    .actor-kpi-chain > b,
+    .actor-kpi-chain > span,
+    .flow-node,
+    .flow-outcome,
+    .priority-list .item,
+    .loop,
+    .risk,
+    .matrix,
+    .bars-chart,
+    .lca-chain .step,
+    .rec-card,
+    .growth-proof-card,
+    .clue,
+    .cover-feature,
+    .evidence-cover,
+    .industry-map-card,
+    .facility-donut-card,
+    .now-card,
+    .pile-split-card,
+    .current-signal,
+    .source-mini,
+    .mechanism-card {
+      border: 3px dashed var(--dash-border);
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    .evidence-panel,
+    .summary-tile,
+    .policy-item,
+    .limit-box,
+    .bridge-card,
+    .pain-card,
+    .actor-kpi-chain > b,
+    .actor-kpi-chain > span,
+    .flow-node,
+    .flow-outcome,
+    .priority-list .item,
+    .loop,
+    .lca-chain .step,
+    .rec-card,
+    .growth-proof-card,
+    .clue,
+    .cover-feature,
+    .evidence-cover,
+    .industry-map-card,
+    .facility-donut-card,
+    .now-card,
+    .pile-split-card,
+    .current-signal,
+    .source-mini,
+    .mechanism-card {
+      background: var(--dash-bg);
+    }
+
+    .proof-side {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      gap: 12px;
+    }
+
+    .cover-feature {
+      padding: 10px;
+    }
+
+    .nav {
+      position: fixed;
+      right: 24px;
+      bottom: 18px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #ddd;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #000000;
+      font-size: 13px;
+      z-index: 9;
+      opacity: 0;
+      pointer-events: auto;
+      transition: opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .closing-slide {
+      padding: 0 92px;
+      background: #ffffff;
+    }
+
+    .closing-page {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 24px;
+      align-content: stretch;
+    }
+
+    .closing-kicker {
+      border-top: 5px solid var(--thu-purple);
+      padding-top: 18px;
+      color: #000000;
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .closing-title {
+      margin: 0;
+      color: var(--thu-purple);
+      font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+      font-size: 49px;
+      line-height: 1.18;
+      letter-spacing: 0;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .closing-subtitle {
+      max-width: 980px;
+      margin: 8px 0 0;
+      color: #000000;
+      font-size: 25px;
+      line-height: 1.38;
+      font-weight: 700;
+    }
+
+    .closing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 4px;
+    }
+
+    .closing-card {
+      border: 3px dashed var(--dash-border);
+      border-radius: 8px;
+      background: var(--dash-bg);
+      padding: 22px 22px 20px;
+      min-height: 158px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .closing-card b {
+      color: var(--thu-purple);
+      font-size: 24px;
+      line-height: 1.18;
+      font-weight: 800;
+    }
+
+    .closing-card span {
+      display: block;
+      margin-top: 14px;
+      color: #000000;
+      font-size: 17px;
+      line-height: 1.42;
+      font-weight: 700;
+    }
+
+    .closing-bottom {
+      border-top: 2px solid #000000;
+      padding-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      color: #000000;
+      font-size: 18px;
+      line-height: 1.32;
+      font-weight: 700;
+    }
+
+    .closing-bottom strong {
+      color: var(--thu-purple);
+      font-size: 23px;
+    }
+
+    body:hover .nav { opacity: 0.92; }
+
+    @media print {
+      body { background: #fff; overflow: visible; }
+      .deck { display: block; padding: 0; transform: none !important; }
+      .slide { box-shadow: none; page-break-after: always; margin: 0; display: block; }
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <section class="slide cover" data-page="1">
+      <div class="cover-content">
+        <div class="cover-mark">Individual Coursework · Materials Sustainability</div>
+        <div class="city-transfer" aria-label="Animated transition from Xi'an to Naples">
+          <img class="xian-photo" src="assets/cover-xian-city-wall.jpg" alt="Xi'an city wall" />
+          <img class="naples-photo" src="assets/cover-naples-bay.jpg" alt="Bay of Naples and Mount Vesuvius" />
+          <div class="photo-route"></div>
+          <div class="photo-ev-dot" aria-hidden="true"></div>
+          <div class="photo-transfer-text">Xi'an experience → Naples adaptation</div>
+          <div class="photo-label xian">Xi'an</div>
+          <div class="photo-label naples">Naples</div>
+        </div>
+        <h1 class="english-title">Designing a Naples EV Transition Pathway<br />Based on Xi'an Experience</h1>
+        <p class="subtitle">Building a phased EV transition framework for Naples, centered on high-mileage fleets, charging networks, data governance and transition support.</p>
+        <div class="cover-info">
+          <div><b>Name</b><span>Xuanming Che</span></div>
+          
+        </div>
+      </div>
+      <div class="footer">References: Individual coursework description (2026); Marking scheme of the video (2026). Cover photos: Xi'an City Wall, xiquinhosilva, CC BY 2.0; Bay of Naples, Vyacheslav Argenberg, CC BY 4.0.</div>
+    </section>
+
+    <section class="slide question-only" data-page="2">
+      <h2>Why did Xi'an perform well?<br />What can Naples learn?</h2>
+    </section>
+
+    <section class="slide" data-page="3">
+      <div class="header">
+        <div><div class="chapter">01 | Xi'an Baseline</div><h2>Xi'an Has Built a Coordinated Base for EV Transition</h2></div>
+        <div class="header-sub">Charging scale, clean public fleets, platform governance and industrial capacity form the evidence base.</div>
+      </div>
+      <div class="xian-data-page">
+        <div class="story-lead">Core evidence from Xi'an: charging infrastructure, clean public transport and platform governance are advancing together.</div>
+        <div class="xian-data-grid">
+          <div class="xian-left-stack">
+            <div class="xian-support-row">
+              <div class="industry-map-card">
+                <img src="assets/xian-nev-industry-map.png" alt="Xi'an NEV industry and auto parts cluster map showing north and south clusters" />
+                <span>The map highlights the northern Qinhan Auto Parts Park and the southern Xi'an Auto Parts Industrial Park. Their location near the urban core and High-tech Zone shows that Xi'an's EV transition is supported by local parts, repair and operating services, not only by vehicle procurement.</span>
+              </div>
+              <div class="xian-support-side">
+                <div class="evidence-cover"><img src="assets/pdf-covers/xian-policy.png" alt="Xi'an NEV policy document cover" /><div><b>Policy backing</b><span>The municipal policy turns public-sector vehicle electrification, charging infrastructure and staged targets into implementation tasks: high-use fleets lead first, while concentrated charging stations and platform management follow in parallel.</span></div></div>
+                <div class="facility-donut-card">
+                  <h4>2020 planned charging-station mix (454 stations)</h4>
+                  <div class="donut-row">
+                    <div class="donut" aria-label="2020 planned charging station mix, total 454 stations"></div>
+                    <div class="donut-legend">
+                      <span><i style="--c:var(--green)"></i>Buses 107</span>
+                      <span><i style="--c:var(--teal)"></i>Taxis 78</span>
+                      <span><i style="--c:var(--thu-gold)"></i>Urban public 84</span>
+                      <span><i style="--c:var(--burgundy)"></i>Logistics/sanitation 67</span>
+                      <span><i style="--c:#8e9a90"></i>Intercity/highway 118</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="growth-proof-card">
+              <h3>Charging infrastructure was scaled first: sustained expansion inside the Third Ring, 2020-2022</h3>
+              <div class="growth-proof-body chart-embed-body">
+                <img class="charging-growth-figure" src="assets/xian-charging-growth-chart.svg" alt="Xi'an charging infrastructure growth inside the Third Ring: 1,012 new charging piles in 2020, 1,785 in 2021 and 3,682 in 2022; 6,479 new piles over 2020-2022, with 352 stations and 7,845 piles connected by 2022." />
+              </div>
+            </div>
+          </div>
+          <div class="metric-prose-panel">
+            <h3>Xi'an has moved from pilots into implementation</h3>
+            <div class="metric-list">
+              <p class="metric-line"><span class="metric">~190k</span>charging piles built citywide by May 2025, including about 50k public/dedicated and 140k private piles.</p>
+              <p class="metric-line"><span class="metric">73.2%</span>green-travel share in 2022, combining private EVs, public transport and slow mobility.</p>
+              <p class="metric-line"><span class="metric word">All buses</span>use new or clean energy, creating stable charging demand in public fleets.</p>
+              <p class="metric-line"><span class="metric">94.7%</span>public charging coverage, reducing charging anxiety and supporting later fleet diffusion.</p>
+              <p class="metric-line"><span class="metric">2026</span>smart platform planned to integrate charger access, dispatch, safety checks and site ratings.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">References: Xi'an Municipal Government (2025); Xi'an Transport Bureau (2021); Xi'an Green Travel Index Report (2022); Qianzhan Industry Research Institute (n.d.).</div>
+    </section>
+
+    <section class="slide" data-page="4">
+      <div class="header">
+        <div><div class="chapter">02 | Xi'an Implementation Logic</div><h2>Xi'an EV implementation: policy, fleets, charging and platform feedback</h2></div>
+        <div class="header-sub">Building an executable chain from the evidence on page 3.</div>
+      </div>
+      <div class="xian-flow">
+        <div class="bridge-thesis">Xi'an execution chain: policy milestones → vehicle supply → stable fleet demand → charging investment → platform data correction.</div>
+        <div class="xian-flow-main">
+        <div class="actor-kpi-chain" aria-label="Xi'an responsible actors and KPI chain">
+          <b>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 7h8l2 3h8v10h-8l-2-3H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 7v20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="actor-copy"><strong>Actors / KPI</strong><em>Responsibility chain</em></span>
+          </b>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 27h20M8 13h16v14H8zM16 6l11 7H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 17v5M16 17v5M20 17v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="actor-copy"><strong>Municipal government</strong><em>sets 2022 / 2024 / 2028 targets</em></span>
+          </span>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4v7M16 21v7M4 16h7M21 16h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 8l4 4M24 8l-4 4M8 24l4-4M24 24l-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="actor-copy"><strong>Transport / DRC / housing</strong><em>coordinates sites, grid and approvals</em></span>
+          </span>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26h22M7 26V12l6 4v-5l6 5v-6h6v16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 21h3M16 21h3M22 21h3M21 10l3-5h-5l3-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="actor-copy"><strong>OEMs / battery firms</strong><em>vehicles and technical support</em></span>
+          </span>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12h20l2 7v6H4v-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2-5h10l2 5M9 20h3M20 20h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="26" r="2" fill="currentColor"/><circle cx="22" cy="26" r="2" fill="currentColor"/></svg>
+            <span class="actor-copy"><strong>Bus / taxi / ride-hailing</strong><em>executes fleet renewal</em></span>
+          </span>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 6v7M18 6v7M8 13h12v5a6 6 0 0 1-6 6v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 18h4a3 3 0 0 1 3 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M24 9l-3 5h5l-3 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            <span class="actor-copy"><strong>Charging firms + grid</strong><em>build, connect and operate network</em></span>
+          </span>
+          <span>
+            <svg class="actor-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7" width="22" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 20l4-5 4 3 4-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h8M16 23v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="actor-copy"><strong>Smart platform</strong><em>tracks coverage, utilisation and low-use sites</em></span>
+          </span>
+        </div>
+        <div class="xian-flow-steps">
+        <div class="flow-row">
+          <div class="flow-node">
+            <span class="tag">Step 1</span>
+            <h3>Policy timetable<br />creates certainty</h3>
+            <p>Bus, taxi and ride-hailing renewal milestones enter the 2022 / 2024 / 2028 timetable, making market expectations clearer.</p>
+            <img class="step-visual policy" src="assets/pdf-covers/xian-policy.png" alt="Xi'an policy document cover" />
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <span class="tag">Step 2</span>
+            <h3>High-mileage public fleets<br />create demand first</h3>
+            <p>Bus, taxi and ride-hailing fleets run frequently and have clear management boundaries, so early conversion releases benefits sooner.</p>
+            <img class="step-visual" src="assets/step-byd-bus.jpg" alt="BYD electric bus as high-mileage public fleet example" />
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <span class="tag">Step 3</span>
+            <h3>Charging network and finance<br />absorb demand</h3>
+            <p>The 2023-2025 plan covers public institutions, commercial sites, stations and corridors, with central rewards and local subsidies.</p>
+            <img class="step-visual" src="assets/step-charging-station.jpg" alt="Electric vehicle charging station example" />
+          </div>
+        </div>
+        <div class="flow-detail-row">
+          <div class="flow-outcome">
+            <span class="tag">Economic logic</span>
+            <h3>Why high-frequency fleets first?</h3>
+            <p>Higher utilisation shortens payback for dedicated bus charging sites.</p>
+            <div class="payback-mini" aria-label="Payback period falls as utilisation and fleet stability improve">
+              <i style="--h:52px" data-label="Low use" data-value="14.46y"></i>
+              <i style="--h:39px" data-label="Mid use" data-value="10.80y"></i>
+              <i style="--h:30px" data-label="High use" data-value="8.20y"></i>
+              <i style="--h:28px" data-label="Stable" data-value="7.75y"></i>
+            </div>
+            <div class="signal">Investment logic: stable demand makes charging payback easier; Naples should start with high-frequency fleets.</div>
+          </div>
+          <div class="flow-outcome">
+            <span class="tag">Feedback loop</span>
+            <h3>Platform governance recalibrates the system</h3>
+            <p>The platform monitors coverage, utilisation, safety risks and low-use sites.</p>
+            <p>Data guides layout, maintenance and subsidy allocation.</p>
+            <div class="feedback-loop-mini" aria-label="Data governance feedback loop">
+              <span class="loop-core">Data</span>
+              <span class="loop-node n-monitor">Monitor</span>
+              <span class="loop-node n-detect">Detect</span>
+              <span class="loop-node n-adjust">Adjust</span>
+              <span class="loop-node n-layout">Layout</span>
+              <span class="loop-arrow a1">→</span>
+              <span class="loop-arrow a2">→</span>
+              <span class="loop-arrow a3">→</span>
+              <span class="loop-arrow a4">→</span>
+            </div>
+            <div class="signal">Governance logic: warnings guide layout, low-use sites receive less subsidy, and uptime plus queue risk enter KPI review.</div>
+          </div>
+        </div>
+        </div>
+        </div>
+      </div>
+      <div class="footer">References: Xi'an Municipal Government (2021, 2024, 2025); Zhang and Yang (2020); Shaanxi Provincial charging infrastructure plan (n.d.). Photos: Wikimedia Commons.</div>
+    </section>
+
+    <section class="slide naples-status-slide" data-page="5">
+      <div class="header">
+        <div><div class="chapter">03 | Naples Baseline</div><h2>Naples Has Foundations, but Not a Complete EV System</h2></div>
+        <div class="header-sub">Start from existing assets, then locate the system gaps.</div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <p class="section-title">Existing assets: planning, regulation and projects</p>
+          <div class="foundation-list">
+            <div class="foundation-item"><b>SUMP adopted</b><span>A sustainable mobility framework can connect EV goals, ZTL rules and public transport.</span></div>
+            <div class="foundation-item"><b>ZTL / pedestrian areas</b><span>Existing access-control tools can become low-emission rules and fleet gates.</span></div>
+            <div class="foundation-item"><b>ANM electric buses</b><span><span class="metric-text">22 buses</span> operate; <span class="metric-text">253 buses</span> are planned under PNRR, but routes and charging dispatch still need validation.</span></div>
+            <div class="foundation-item"><b>Tourist-bus incentives</b><span>EV / hybrid vehicles already receive fee discounts, creating a pricing-policy entry point.</span></div>
+          </div>
+          <div class="naples-photo-evidence" aria-label="Naples real-world transport and street context photos">
+            <figure>
+              <img src="assets/naples-port-real.jpg" alt="Port of Naples and maritime station" />
+              <figcaption>Port and logistics node</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/naples-anm-real.jpg" alt="ANM public transport vehicle in Naples" />
+              <figcaption>ANM public transport</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/naples-tourist-bus-ztl.png" alt="Comune di Napoli tourist bus ZTL policy image" />
+              <figcaption>Tourist-bus ZTL policy</figcaption>
+            </figure>
+          </div>
+          <p class="section-title" style="margin-top:0;">Bus electrification: funding is secured, but delivery is still ramping up</p>
+          <div class="funding-pie-card">
+            <div class="funding-donut" aria-label="PNRR electric bus funding split: 145 million euros for vehicles and 35 million euros for charging infrastructure">
+              <span class="funding-label vehicle">80.6%<br />vehicles</span>
+              <span class="funding-label charging">19.4%<br />charging</span>
+            </div>
+            <div class="funding-pie-copy">
+              <div><b><i style="--c:var(--green)"></i>Vehicle procurement</b><span class="amount">€145m</span>about 80.6%, linked to the 253 electric-bus procurement plan.</div>
+              <div><b><i style="--c:var(--teal)"></i>Charging infrastructure</b><span class="amount">€35m</span>about 19.4%; depot charging is funded, while citywide public charging still needs expansion.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="section-title">Main pain point: assets are not yet connected as a system</p>
+            <div class="pain-card"><b>1. Electric buses remain an early-stage project</b><span>22 buses mark the start of transition; 253 buses remain a 2026 procurement plan, with reliability, dispatch and route fit still to be tested.</span></div>
+          <div class="pain-card"><b>2. Charging support is still project-based</b><span>Depot charging has funding, but public charging, logistics charging, port/tourism nodes and no-driveway users are not yet linked into a clear network.</span></div>
+          <div class="pain-card"><b>3. Regulation has not become an EV pathway</b><span>SUMP, ZTL and tourist-bus discounts provide governance entry points; fleet gates, low-emission access rules and charging access still need to be formed.</span></div>
+          <div class="diagnosis-note">Diagnosis: Naples has policies, vehicle projects, charging investment and access-control tools, but not yet a unified delivery system.</div>
+          <div class="diagnosis-bridge">
+            <h3>Translate into action on the next page</h3>
+            <div class="bridge-action-row"><b>Vehicle projects</b><i>→</i><span>fleet gates + phased roadmap</span></div>
+            <div class="bridge-action-row"><b>Depot funding</b><i>→</i><span>public nodes + port / taxi charging network</span></div>
+            <div class="bridge-action-row"><b>SUMP / ZTL</b><i>→</i><span>EV access rules + transition fairness support</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">References: EU Urban Mobility Observatory (2023); Comune di Napoli (2025); Comune di Napoli (2026). Photos: Mstyslav Chernov, Steve Morgan / Wikimedia Commons; Comune di Napoli ZTL Bus Turistici.</div>
+    </section>
+
+    <section class="slide" data-page="6">
+      <div class="header">
+        <div><div class="chapter">04 | Transfer Mechanism</div><h2>Naples Localization Package: Policy, Fleets, Charging and Transition Support</h2></div>
+        <div class="header-sub">The same mechanism must land in SUMP, ZTL, tourism, port logistics and transition-cost support.</div>
+        </div>
+        <div class="translation-page">
+        <div class="blueprint-photo-band">
+          <img src="assets/cover-naples-bay.jpg" alt="Bay of Naples and Mount Vesuvius" />
+          <img class="blueprint-bus-photo" src="assets/naples-anm-real.jpg" alt="ANM bus in Naples" />
+          <div class="blueprint-band-copy">
+            <b>Naples transition blueprint</b>
+            <span>Translate Xi'an's model into executable Naples nodes: rules, fleets, charging, data, industry support and transition assistance before wider private-car diffusion.</span>
+          </div>
+        </div>
+        <div class="blueprint-canvas" aria-label="Naples localization blueprint from gaps to actions and outcomes">
+          <div class="blueprint-rail">
+            <h3>Gaps From Page 5</h3>
+            <div class="blueprint-gap-list">
+              <div class="blueprint-gap-item"><i>1</i><div><b>Electric buses are still early-stage</b><span>22 buses operate; 253 remain in the PNRR procurement pipeline.</span></div></div>
+              <div class="blueprint-gap-item"><i>2</i><div><b>Charging support is project-based</b><span>Depot funding exists, but port, tourism, logistics and resident charging remain fragmented.</span></div></div>
+              <div class="blueprint-gap-item"><i>3</i><div><b>High-mileage use cases lack priority</b><span>Buses, taxis, port logistics and tourist coaches need a clear rollout order.</span></div></div>
+              <div class="blueprint-gap-item"><i>4</i><div><b>Operations feedback is weak</b><span>Vehicles, charging and access rules have not yet formed a rolling feedback loop.</span></div></div>
+              <div class="blueprint-gap-item"><i>5</i><div><b>Transition support is limited</b><span>Drivers, small firms and no-driveway residents face higher transition costs.</span></div></div>
+            </div>
+          </div>
+          <div class="blueprint-route">
+            <div class="blueprint-route-title">Naples Localization Path</div>
+            <div class="blueprint-route-list">
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 9h18v12H7z"/><path d="M10 24h12M12 12h8M13 17h6"/></svg></div><div class="blueprint-step-copy"><b>Phased fleet gates</b><span>Bind 2028 / 2032 / 2035 with SUMP, ZTL and bus-procurement milestones.</span></div></div>
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10 5h10v22H10z"/><path d="M14 9h2M20 10h3a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3h-1"/><path d="M15 15l-2 4h4l-2 4"/></svg></div><div class="blueprint-step-copy"><b>Depot + public-node charging</b><span>Start with ANM depots, then add port, taxi, public-parking and old-city edge nodes.</span></div></div>
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 10h20v12H6z"/><path d="M9 13h5M17 13h5M9 18h13"/><path d="M10 25h2M22 25h2"/></svg></div><div class="blueprint-step-copy"><b>High-mileage fleets first</b><span>Prioritise ANM buses, taxis, ride-hailing, port logistics, tourist coaches and municipal vehicles.</span></div></div>
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26h22M8 26V13l6 4v-5l6 5v-6h6v15"/><path d="M11 22h3M17 22h3M23 22h3"/><path d="M22 6l-3 5h5l-3 5"/></svg></div><div class="blueprint-step-copy"><b>EV industry and services</b><span>Adapt Xi'an's BYD lesson: grow Naples charging, repair, retrofit and fleet-service firms.</span></div></div>
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="7" width="20" height="16" rx="2"/><path d="M10 20l4-5 4 3 4-7"/><path d="M12 27h8M16 23v4"/></svg></div><div class="blueprint-step-copy"><b>KPI feedback platform</b><span>Track charger use, bus reliability, low-use sites and complaints.</span></div></div>
+              <div class="blueprint-step"><div class="blueprint-step-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10"/><path d="M19 11h-5a4 4 0 0 0 0 8h5M12 14h7M12 18h7"/></svg></div><div class="blueprint-step-copy"><b>Leasing + used EV + charging aid</b><span>Support driver leasing, small-firm transition, used EVs and no-driveway charging.</span></div></div>
+            </div>
+          </div>
+          <div class="blueprint-outcomes">
+            <h3>Expected Effects</h3>
+            <div class="blueprint-outcome-list">
+              <div class="blueprint-outcome-item"><b>Projects become a roadmap</b><span>One-off procurements become checkable, adjustable phase tasks.</span></div>
+              <div class="blueprint-outcome-item"><b>Local industry chain grows</b><span>Fleet and charging demand becomes firm services and jobs.</span></div>
+              <div class="blueprint-outcome-item"><b>Visible benefits arrive first</b><span>High-frequency vehicles cut emissions where the public can notice.</span></div>
+              <div class="blueprint-outcome-item"><b>Rules recalibrate</b><span>Subsidies, sites and access rules adjust with utilisation and risks.</span></div>
+              <div class="blueprint-outcome-item"><b>Public resistance falls</b><span>Transition support makes ZTL, fleet gates and charging fees easier to implement.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">References: Xi'an Municipal Government (2021, 2025); EU Urban Mobility Observatory (2023); City of Sydney (2025).</div>
+    </section>
+
+    <section class="slide full-map-slide" data-page="7">
+      <div class="header">
+        <div><div class="chapter">05 | System Map</div><h2>Naples EV Transition System Structure</h2></div>
+        <div class="header-sub">Connecting Xi'an's transferable logic with Naples governance, policy instruments, infrastructure, users and environmental outcomes.</div>
+      </div>
+      <div class="system-map-layout">
+        <div class="system-image-frame">
+          <img src="assets/system-map.png" alt="Naples EV transition system map linking Xi'an experience, governance funding, policy instruments, infrastructure, users, equity safeguards and environmental outcomes" />
+        </div>
+        <div class="system-map-caption">Figure 1 | Naples EV transition system map: translating transferable Xi'an lessons into an implementation chain across governance, policy, charging, fleets and environmental outcomes.</div>
+        <div class="system-map-notes">
+          <p><span>Xi'an's lesson combines policy mix, charging-first deployment, high-mileage fleets and social licence.</span></p>
+          <p><span>Naples must connect funding, procurement, ZTL / access rules and targeted subsidies with charging networks and priority fleets.</span></p>
+          <p><span>Lower fuel-vehicle mileage, better air quality and stronger public support feed back into policy enforceability.</span></p>
+        </div>
+      </div>
+      <div class="footer">References: Xi'an Municipal Government (2021, 2025); EU Urban Mobility Observatory (2023); Comune di Napoli (2025); European Commission (2023).</div>
+    </section>
+
+    <section class="slide" data-page="8">
+      <div class="header">
+        <div><div class="chapter">06 | Fleet and Space Priority</div><h2>High-Mileage Fleet Priority: Act, Support, Pilot</h2></div>
+        <div class="header-sub">Priority is determined by both emission benefit and implementation control.</div>
+      </div>
+      <div class="priority-map-layout">
+        <div class="priority-decision-frame">
+          <img src="assets/priority-decision-map-crop.png" alt="Naples EV priority decision map: implementation control on the x-axis and emission benefit on the y-axis; buses, taxi fleets, tourist coaches and port logistics sit in the priority action area, while charging and data platforms sit in system support" />
+        </div>
+        <p class="priority-map-caption">Figure 2 | Naples EV priority decision map: x-axis shows implementation control, y-axis shows emission benefit / public visibility, and bubble size indicates potential impact scale.</p>
+        <div class="priority-map-notes">
+          <p><span>ANM buses, taxi fleets, tourist coaches and port logistics combine high mileage, clear responsibility and visible public benefits.</span></p>
+          <p><span>Depot charging, public parking charging, data platforms and smart charging provide the operating base for priority fleets.</span></p>
+          <p><span>Private EV diffusion, old-town ZTL rules, curbside charging and low-use cars should enter later diffusion or pilot phases.</span></p>
+        </div>
+      </div>
+      <div class="footer">References: City of Sydney (2025); EU Urban Mobility Observatory (2023); Comune di Napoli (2025); Schnell et al. (2020); Woody et al. (2022).</div>
+    </section>
+
+    <section class="slide" data-page="9">
+      <div class="header">
+        <div><div class="chapter">07 | Naples Roadmap</div><h2>2026-2035 Phased Implementation Roadmap</h2></div>
+        <div class="header-sub">Secure buses and charging first, then expand to logistics / taxis and align with EU 2035.</div>
+      </div>
+      <div class="roadmap-journal-layout">
+        <div class="roadmap-journal-frame">
+          <img src="assets/implementation-roadmap-table.png" alt="2026-2035 phased implementation roadmap with policy areas, phases and action packages" />
+        </div>
+        <p class="roadmap-journal-caption">Figure 4 | 2026-2035 phased implementation roadmap: governance, charging, fleets, ZTL pricing and data support first secure buses and charging, then expand to logistics, tourism and private EVs.</p>
+      </div>
+      <div class="footer">References: City of Sydney (2025); Comune di Napoli (2025); European Commission (2023); EUR-Lex (2023).</div>
+    </section>
+
+    <section class="slide full-map-slide" data-page="10">
+      <div class="header">
+        <div><div class="chapter">08 | Causal Loop Diagram</div><h2>Naples EV Transition Causal Loop Diagram</h2></div>
+        <div class="header-sub">The full CLD shows R1/R2 reinforcing loops and B1/B2 balancing loops.</div>
+      </div>
+      <div class="cld-map-layout">
+        <div class="cld-image-frame">
+          <img src="assets/causal-loop-user-white.png" alt="Causal loop diagram for Naples EV transition: EV adoption, charging convenience, market confidence, public support, policy strength, transition cost pressure, charging load and grid pressure feedback loops" />
+        </div>
+        <p class="cld-map-caption">Figure 3 | Naples EV causal loop diagram: blue links indicate same-direction effects, red links indicate opposite-direction effects; R1/R2 are reinforcing loops and B1/B2 are balancing loops.</p>
+        <div class="cld-map-notes">
+          <p><span>Better charging convenience strengthens EV adoption and market confidence, attracting further public and private investment.</span></p>
+          <p><span>Lower fuel-vehicle mileage improves air quality; stronger public support then makes policy strength easier to sustain.</span></p>
+          <p><span>Transition cost and charging load slow diffusion, so equity support, smart charging and depot management are required.</span></p>
+        </div>
+      </div>
+      <div class="footer">References: EV adoption CLD review (2024); S-Curve EV Adoption Report (2025); Sustainability barriers review (2025).</div>
+    </section>
+
+    <section class="slide" data-page="11">
+      <div class="header">
+        <div><div class="chapter">09 | KPI & Risk Control</div><h2>Phased KPI Checkpoints and Risk Control</h2></div>
+        <div class="header-sub">Each gate links timing, responsible actors, quantified KPIs and risk controls.</div>
+      </div>
+      <div class="kpi-gate-page">
+        <p class="kpi-rule">KPI gate rule: pause the next phase if reliability, charging availability or transition support misses target.</p>
+        <div class="kpi-gate-grid">
+          <div class="kpi-gate-card">
+            <div class="kpi-gate-top"><span class="kpi-year">2028</span><span class="kpi-gate-tag">Operational proof</span></div>
+            <h3>Validate buses and charging first</h3>
+            <ul class="kpi-checks">
+              <li><b>Bus reliability</b>ANM e-bus reliability no lower than the diesel baseline.</li>
+              <li><b>Charger uptime</b>Depot and first public nodes reach uptime ≥ 95%.</li>
+              <li><b>Baseline log</b>Record route VKT, charging faults, repairs and complaints.</li>
+            </ul>
+            <div class="kpi-actors">Responsible actors: Comune di Napoli + ANM; grid and charging operators.</div>
+          </div>
+          <div class="kpi-gate-card">
+            <div class="kpi-gate-top"><span class="kpi-year">2032</span><span class="kpi-gate-tag">Scale fleets</span></div>
+            <h3>Expand from buses to taxis, logistics and tourism</h3>
+            <ul class="kpi-checks">
+              <li><b>Fleet shift</b>High-mileage fleets reach EV / low-emission share ≥ 50%.</li>
+              <li><b>Spatial delivery</b>Core logistics micro-hubs and taxi / tourism nodes are in use.</li>
+              <li><b>Feedback</b>Publish uptime, queues, low-use sites and complaint response.</li>
+            </ul>
+            <div class="kpi-actors">Responsible actors: Comune + operators; port / logistics actors; taxi and tourism representatives.</div>
+          </div>
+          <div class="kpi-gate-card">
+            <div class="kpi-gate-top"><span class="kpi-year">2035</span><span class="kpi-gate-tag">Mainstreaming</span></div>
+            <h3>Align with EU 2035 new-vehicle rules</h3>
+            <ul class="kpi-checks">
+              <li><b>Regulatory fit</b>New registered cars / vans align with EU zero-emission rules.</li>
+              <li><b>Diffusion readiness</b>Used EVs, repair capacity and public charging are available.</li>
+              <li><b>Transition support</b>Leasing, small-business subsidies and no-driveway charging cover priority groups.</li>
+            </ul>
+            <div class="kpi-actors">Responsible actors: Italy / EU + Comune; repair, finance and charging-service markets.</div>
+          </div>
+        </div>
+        <div class="kpi-risk-band">
+          <div class="risk-band-title">Risk control<span>Pause expansion if gates fail</span></div>
+          <div class="risk-kpi-row">
+            <div><b>Cost pressure</b><span>Driver leasing, used EVs and income-loss buffers.</span></div>
+            <div><b>Street space</b><span>Prioritise depot/off-street charging over old-town curbside slow charging.</span></div>
+            <div><b>Bus reliability</b><span>E-bus operating KPIs come before large-scale expansion.</span></div>
+            <div><b>Low-use sites</b><span>Invest by utilisation and correct under-used charging sites.</span></div>
+            <div><b>Transparency</b><span>Track charger uptime, bus reliability and complaint response.</span></div>
+          </div>
+        </div>
+        <p class="kpi-bottom-claim">Transition support builds implementation resilience: subsidies, accessible public charging and public KPIs keep the policy durable.</p>
+        <div class="kpi-visual-checks">
+          <div class="kpi-visual-card"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Naples%20trolleybus.jpg?width=1024" alt="Naples trolleybus used as a local electric public transport reference" /><div><b>Field check: bus reliability</b><span>Use punctuality, breakdowns, repairs and driver feedback to test replacement of the diesel baseline.</span></div></div>
+          <div class="kpi-visual-card"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/VTA%20Cerone%20ChargePoint%20station.jpg?width=1024" alt="Electric bus charging station used as depot charging reference" /><div><b>Field check: charging availability</b><span>Review depot and first public nodes by uptime, queue time, load control and fault recovery.</span></div></div>
+          <div class="kpi-visual-card"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Enel%20X%20charging%20station.jpg?width=1024" alt="Enel X public EV charging station in Italy" /><div><b>Field check: space and support</b><span>Keep slow charging out of old-town streets while tracking leasing, subsidies and public charging access.</span></div></div>
+          </div>
+      </div>
+      <div class="footer">References: Individual coursework description (2026); City of Sydney (2025); EU Urban Mobility Observatory (2023); Comune di Napoli (2025); EUR-Lex (2023). Photos: Wikimedia Commons / LHOON / VTA / Tiia Monto.</div>
+    </section>
+
+    <section class="slide" data-page="12">
+      <div class="header">
+        <div><div class="chapter">10 | Environmental Benefits</div><h2>Environmental Benefits Forecast and LCA Boundary</h2></div>
+        <div class="header-sub">Translate fleet replacement into air, noise, carbon and life-cycle assessment boundaries.</div>
+      </div>
+      <div class="lca-method-page">
+        <p class="lca-method-rule">Forecast logic: electrifying high-mileage fleets first should reduce air-pollution and noise exposure in the old city, bus corridors and port areas, while climate benefits grow as the grid decarbonises.</p>
+        <div class="lca-method-grid">
+          <div class="lca-panel">
+            <p class="section-title">1. Local benefits: start with exposure reduction</p>
+            <div class="benefit-flow">
+              <div><b>Fuel-vehicle baseline</b><span>VKT, route frequency and exposed users for buses, taxis, logistics and tourist vehicles.</span></div>
+              <div class="flow-arrow">→</div>
+              <div><b>High-mileage priority</b><span>Electrify ANM buses, taxis, port logistics and tourist coaches first.</span></div>
+              <div class="flow-arrow">→</div>
+              <div><b>Direct benefits</b><span>Lower NOx / PM, noise and tailpipe exposure in the old city, high-frequency routes and port areas.</span></div>
+            </div>
+            <ul class="lca-bullets">
+              <li><b>Air quality:</b> monitor road NOx / PM hotspots, bus corridors and port logistics routes.</li>
+              <li><b>Noise benefit:</b> electric buses, taxis and tourist vehicles reduce start-up, idling and acceleration noise.</li>
+              <li><b>Carbon benefit:</b> report fuel VKT displaced and grid-carbon sensitivity before updating annual CO2e results.</li>
+            </ul>
+            <div class="env-result-grid">
+              <div class="env-result-card"><b>Cleaner air</b><span>Tailpipe emissions fall on high-frequency routes and port logistics corridors; NOx / PM hotspots should shrink.</span></div>
+              <div class="env-result-card"><b>Quieter streets</b><span>Electric buses, taxis and tourist vehicles cut low-speed, idling and start-stop noise.</span></div>
+              <div class="env-result-card"><b>Rising climate gains</b><span>Fuel VKT is replaced by electric mileage; lower-carbon electricity reduces CO2e per km.</span></div>
+              <div class="env-result-card"><b>Lower health exposure</b><span>Old-city residents, passengers, drivers and port-side communities receive early air and noise benefits.</span></div>
+            </div>
+          </div>
+          <div class="lca-panel">
+            <p class="section-title">2. LCA boundary: go beyond “zero tailpipe”</p>
+            <div class="lca-definition-card">
+              <b>Why include LCA</b>
+              <span>EVs have no tailpipe emissions in use, but benefits still depend on battery materials, manufacturing, electricity mix, charging losses, service life and recycling pathways.</span>
+            </div>
+            <div class="lca-mini-diagram" aria-label="Life cycle assessment boundary diagram">
+              <div class="lca-stage"><i>01</i><b>Materials / battery</b><span>resource extraction, battery size and recycling rate.</span></div>
+              <div class="lca-stage-arrow">→</div>
+              <div class="lca-stage"><i>02</i><b>Vehicle manufacturing</b><span>body production, maintenance, lifetime and replacement cycle.</span></div>
+              <div class="lca-stage-arrow">→</div>
+              <div class="lca-stage"><i>03</i><b>Electricity & charging</b><span>grid factor, charging loss, depot / public charging mix.</span></div>
+              <div class="lca-stage-arrow down">→</div>
+              <div class="lca-stage use-phase" style="grid-column: 3; grid-row: 3;"><i>04</i><b>Use phase</b><span>tailpipe emissions, NOx / PM, noise and exposure location.</span></div>
+              <div class="lca-stage-arrow" style="grid-column: 4; grid-row: 3;">←</div>
+              <div class="lca-stage" style="grid-column: 5; grid-row: 3;"><i>05</i><b>Reuse / recycling</b><span>repair, reuse and recycle to reduce material burden.</span></div>
+            </div>
+            <div class="lca-scope-compare">
+              <div class="lca-scope-line"><b>Local view</b> identifies which streets, routes and groups receive air and noise benefits first.</div>
+              <div class="lca-scope-line"><b>LCA view</b> checks whether electrification remains environmentally beneficial from materials to recycling.</div>
+            </div>
+          </div>
+        </div>
+        <div class="lca-data-row">
+          <div><b>Forecast inputs</b><span>VKT, fleet mix, vehicle energy use, grid factor, charging losses, route location and exposed population.</span></div>
+          <div><b>Monitoring indicators</b><span>NOx / PM hotspots, noise level, fuel mileage displaced, charger uptime and annual CO2e trend.</span></div>
+          <div><b>Policy use</b><span>Prioritise high-exposure areas; update fleet gates, charging layout and transition support with real data.</span></div>
+        </div>
+      </div>
+      <div class="footer">References: City of Sydney (2025); Scaling the S-Curve EV Adoption Report (2025); ISO 14040/14044 LCA framework; European Environment Agency transport emissions framework.</div>
+    </section>
+
+    <section class="slide" data-page="13">
+      <div class="header">
+        <div><div class="chapter">11 | Final Recommendation</div><h2>Final Recommendation: Build the EV System First</h2></div>
+        <div class="header-sub">The policy logic is sequence first, scale second.</div>
+      </div>
+      <div class="recommendation-page">
+        <p class="recommendation-thesis">Naples should not electrify all vehicles evenly. It should first build a controllable EV system around high-mileage fleets, then use data and transition support to expand safely.</p>
+        <div class="rec-logic-flow" aria-label="Final recommendation logic from problem to diffusion">
+          <div class="rec-logic-node">
+            <div class="logic-kicker">Problem</div>
+            <h3>Assets are fragmented</h3>
+            <p>Naples has SUMP, ZTL tools, ANM bus funding and charging investment, but they do not yet operate as one delivery system.</p>
+          </div>
+          <div class="rec-flow-arrow">→</div>
+          <div class="rec-logic-node">
+            <div class="logic-kicker">Priority</div>
+            <h3>Start where control is clear</h3>
+            <p>ANM buses, taxis, port logistics, tourist coaches and municipal fleets bring high mileage, visible benefits and accountable owners.</p>
+          </div>
+          <div class="rec-flow-arrow">→</div>
+          <div class="rec-logic-node">
+            <div class="logic-kicker">Support</div>
+            <h3>Make the system runnable</h3>
+            <p>Depot charging, public nodes, uptime data and local EV service firms must come before full-scale private diffusion.</p>
+          </div>
+          <div class="rec-flow-arrow">→</div>
+          <div class="rec-logic-node">
+            <div class="logic-kicker">Diffusion</div>
+            <h3>Expand only after feedback</h3>
+            <p>Private EV growth should follow proven reliability, fair charging access and transition support for drivers and small firms.</p>
+          </div>
+        </div>
+        <div class="rec-principle-grid">
+          <div class="rec-principle"><b>1</b><h4>Fleet first</h4><p>Move from public buses to taxis, ride-hailing, port logistics and tourist coaches before targeting low-use private cars.</p></div>
+          <div class="rec-principle"><b>2</b><h4>Charging before expansion</h4><p>Prioritise depot and off-street nodes, then add public parking, port, taxi and old-city edge charging points.</p></div>
+          <div class="rec-principle"><b>3</b><h4>Data as governance</h4><p>Use charger uptime, queue time, bus reliability, low-use sites and complaints to adjust subsidies and network layout.</p></div>
+          <div class="rec-principle"><b>4</b><h4>Local EV industry</h4><p>Following Xi'an's BYD lesson, grow local charging, repair, retrofit, used-EV, data and fleet-service firms.</p></div>
+          <div class="rec-principle"><b>5</b><h4>Fair transition</h4><p>Use leasing, used EVs, charging discounts and small-firm support to reduce resistance to ZTL and fleet-gate policies.</p></div>
+        </div>
+        <div class="rec-industry-sketch" aria-label="Xi'an BYD lesson transferred into Naples local EV ecosystem">
+          <div class="rec-sketch-origin">
+            <div class="rec-sketch-icon">
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26h24M7 26V13l6 4v-5l6 5v-6h7v15"/><path d="M10 22h3M16 22h3M22 22h3"/><path d="M22 6l-3 5h5l-3 5"/></svg>
+            </div>
+            <div><b>Xi'an BYD lesson</b><span>EV transition creates supply, maintenance, charging and service capacity, not only cleaner vehicles.</span></div>
+          </div>
+          <div class="rec-sketch-arrow">→</div>
+          <div class="rec-sketch-target">
+            <b>Naples local EV ecosystem</b>
+            <span>Turn fleet electrification into local capability and jobs instead of relying only on external procurement.</span>
+            <div class="rec-capability-row">
+              <div class="rec-capability"><b>Vehicle supply</b><span>fleet-ready EVs</span></div>
+              <div class="rec-capability"><b>Charging</b><span>CPO + grid work</span></div>
+              <div class="rec-capability"><b>Repair</b><span>skills + retrofits</span></div>
+              <div class="rec-capability"><b>Data</b><span>uptime + routing</span></div>
+              <div class="rec-capability"><b>Jobs</b><span>local services</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="recommendation-claim">Conclusion: Naples should copy Xi'an's implementation sequence, not its exact indicators; prove the system first, then scale citywide.</p>
+      </div>
+      <div class="footer">References: Synthesised from Xi'an Municipal Government (2021, 2025), EU Urban Mobility Observatory (2023), Comune di Napoli (2025), City of Sydney (2025).</div>
+    </section>
+
+    <section class="slide cover closing-slide" data-page="14">
+      <div class="cover-content">
+        <div class="cover-mark">Individual Coursework · Materials Sustainability</div>
+        <div class="city-transfer" aria-label="Closing visual transition from Xi'an to Naples">
+          <img class="xian-photo" src="assets/cover-xian-city-wall.jpg" alt="Xi'an city wall" />
+          <img class="naples-photo" src="assets/cover-naples-bay.jpg" alt="Bay of Naples and Mount Vesuvius" />
+          <div class="photo-route"></div>
+          <div class="photo-ev-dot" aria-hidden="true"></div>
+          <div class="photo-transfer-text">Xi'an experience → Naples adaptation</div>
+          <div class="photo-label xian">Xi'an</div>
+          <div class="photo-label naples">Naples</div>
+        </div>
+        <h1 class="english-title">Thank You<br />for Listening</h1>
+        <p class="subtitle">Designing a staged EV transition pathway for Naples through high-mileage fleets, charging networks, data governance and transition support.</p>
+        <div class="cover-info">
+          <div><b>Name</b><span>Xuanming Che</span></div>
+          
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="nav" style="display:flex;gap:16px;align-items:center"><span style="font-size:11px">2026 coursework · proposed plan &amp; historical data</span>
+    <span><span id="idx">1</span> / <span id="totalPages">14</span></span>
+  </div>
+
+  <script>
+    // Remote reference photographs remain optional when viewing offline.
+    document.querySelectorAll('img[src^="https://"]').forEach(function(img) {
+      img.addEventListener('error', function() {
+        const box = document.createElement('div');
+        box.className = 'remote-photo-fallback';
+        box.style.cssText = 'height:100px;display:flex;align-items:center;justify-content:center;padding:12px;background:#eeeeF5;color:#444;font:14px Arial;text-align:center';
+        box.textContent = 'Reference photo requires internet: ' + img.alt;
+        img.replaceWith(box);
+      });
+    });
+    document.querySelectorAll(".waffle").forEach(function(box) {
+      const fill = Number(box.dataset.fill || 0);
+      for (let i = 0; i < 100; i += 1) {
+        const s = document.createElement("span");
+        if (i < fill) s.className = "filled";
+        box.appendChild(s);
+      }
+    });
+
+    const deck = document.getElementById("deck");
+    const idx = document.getElementById("idx");
+    const totalPagesLabel = document.getElementById("totalPages");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    let current = 0;
+    const total = slides.length;
+    totalPagesLabel.textContent = String(total);
+    function fitDeck() {
+      const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720, 1);
+      document.documentElement.style.setProperty("--deck-scale", String(scale));
+    }
+    function go(n) {
+      current = Math.max(0, Math.min(total - 1, n));
+      slides.forEach(function(slide, i) {
+        slide.classList.toggle("is-active", i === current);
+      });
+      idx.textContent = String(current + 1);
+      const url = new URL(window.location.href);
+      url.searchParams.set("slide", String(current + 1));
+      window.history.replaceState(null, "", url);
+    }
+    const params = new URLSearchParams(window.location.search);
+    const requestedSlide = Number(params.get("slide") || 1);
+    fitDeck();
+    go(requestedSlide - 1);
+    window.addEventListener("resize", fitDeck);
+    window.addEventListener("keydown", function(e) {
+      if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+        e.preventDefault();
+        go(current + 1);
+      }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") go(current - 1);
+      if (e.key === "Home") go(0);
+      if (e.key === "End") go(total - 1);
+    });
+  </script>
+</body>
+</html>
