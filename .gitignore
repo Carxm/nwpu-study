@@ -5,3 +5,6 @@ __pycache__/
 /outputs/year3-sem2-screening-20261013/
 /outputs/year3-all-20261014/
 /work/year3-all-20261014/
+
+# Local authorship audit; do not publish screening notes.
+/outputs/authorship-cleanup-20261023/
